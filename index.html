@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>AMZL Quiz - DBR Trainer</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f172a;--surface:#1e293b;--card:#334155;
+  --primary:#3b82f6;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;
+  --text:#f1f5f9;--muted:#94a3b8;
+  --safe-top:env(safe-area-inset-top);
+  --safe-bottom:env(safe-area-inset-bottom);
+}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
+
+.screen{display:none;flex-direction:column;height:100%;padding:16px;animation:fadeIn .3s}
+.screen.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Header bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 0;margin-bottom:12px}
+.topbar h1{font-size:1.1rem;font-weight:700}
+.badge{background:var(--primary);padding:4px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+
+/* XP Bar */
+.xp-bar-wrap{width:100%;height:8px;background:var(--card);border-radius:4px;margin-bottom:16px;overflow:hidden}
+.xp-bar{height:100%;background:linear-gradient(90deg,var(--primary),#8b5cf6);border-radius:4px;transition:width .5s}
+
+/* Menu */
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.menu-card{background:var(--surface);border:1px solid var(--card);border-radius:16px;padding:20px 16px;text-align:center;cursor:pointer;transition:transform .15s,border-color .15s;-webkit-user-select:none;user-select:none}
+.menu-card:active{transform:scale(.96);border-color:var(--primary)}
+.menu-card .icon{font-size:2rem;margin-bottom:8px}
+.menu-card .label{font-size:.85rem;font-weight:600}
+.menu-card .desc{font-size:.7rem;color:var(--muted);margin-top:4px}
+
+/* Stats row */
+.stats-row{display:flex;justify-content:space-around;background:var(--surface);border-radius:12px;padding:12px;margin-top:16px}
+.stat{text-align:center}
+.stat .val{font-size:1.2rem;font-weight:700;color:var(--primary)}
+.stat .lbl{font-size:.65rem;color:var(--muted);margin-top:2px}
+
+/* Game screen */
+.game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.game-info{display:flex;gap:12px;font-size:.8rem}
+.game-info span{display:flex;align-items:center;gap:4px}
+.timer{font-variant-numeric:tabular-nums;color:var(--warning);font-weight:700}
+.lives{color:var(--danger)}
+
+.progress-bar-wrap{width:100%;height:4px;background:var(--card);border-radius:2px;margin-bottom:16px}
+.progress-bar{height:100%;background:var(--success);border-radius:2px;transition:width .3s}
+
+.question-card{background:var(--surface);border-radius:16px;padding:20px;margin-bottom:16px;flex-shrink:0}
+.q-category{font-size:.7rem;color:var(--primary);font-weight:600;text-transform:uppercase;margin-bottom:8px}
+.q-text{font-size:1rem;font-weight:600;line-height:1.4}
+
+.options{display:flex;flex-direction:column;gap:10px;flex:1;overflow-y:auto;padding-bottom:16px}
+.opt-btn{width:100%;padding:14px 16px;background:var(--surface);border:2px solid var(--card);border-radius:12px;color:var(--text);font-size:.9rem;text-align:left;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none;line-height:1.3}
+.opt-btn:active{transform:scale(.98)}
+.opt-btn.correct{border-color:var(--success);background:rgba(16,185,129,.15)}
+.opt-btn.wrong{border-color:var(--danger);background:rgba(239,68,68,.15)}
+.opt-btn.disabled{pointer-events:none;opacity:.7}
+
+/* Flashcard mode */
+.flashcard{background:var(--surface);border-radius:20px;padding:32px 20px;text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;transition:transform .3s;perspective:1000px}
+.flashcard.flipped{background:linear-gradient(135deg,var(--surface),rgba(59,130,246,.1))}
+.flash-label{font-size:.7rem;color:var(--muted);margin-bottom:12px;text-transform:uppercase}
+.flash-text{font-size:1.1rem;font-weight:600;line-height:1.5}
+.flash-hint{font-size:.75rem;color:var(--muted);margin-top:16px}
+
+.flash-nav{display:flex;gap:12px;margin-top:16px}
+.flash-nav button{flex:1;padding:14px;border-radius:12px;border:none;font-size:.9rem;font-weight:600;cursor:pointer}
+.btn-know{background:var(--success);color:#fff}
+.btn-dunno{background:var(--danger);color:#fff}
+.btn-next{background:var(--primary);color:#fff}
+
+/* Results */
+.results{text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.results .big-score{font-size:3rem;font-weight:800;background:linear-gradient(135deg,var(--primary),#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.results .sub{color:var(--muted);margin-top:8px;font-size:.9rem}
+.results .xp-earned{color:var(--success);font-size:1.2rem;font-weight:700;margin-top:16px}
+
+.btn-main{width:100%;padding:16px;border-radius:14px;border:none;background:var(--primary);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;margin-top:16px}
+.btn-main:active{opacity:.8}
+.btn-secondary{background:var(--surface);border:2px solid var(--card);color:var(--text)}
+
+/* Category filter */
+.cat-filter{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.cat-chip{padding:6px 12px;border-radius:20px;font-size:.7rem;font-weight:600;background:var(--surface);border:1px solid var(--card);cursor:pointer;transition:all .2s}
+.cat-chip.active{background:var(--primary);border-color:var(--primary);color:#fff}
+
+/* Streak animation */
+@keyframes streak{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+.streak-anim{animation:streak .4s ease}
+
+/* Responsive tweaks for larger phones */
+@media(min-height:800px){
+  .question-card{padding:24px}
+  .q-text{font-size:1.1rem}
+  .opt-btn{padding:16px 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== MENU SCREEN ===== -->
+<div class="screen active" id="menuScreen">
+  <div class="topbar">
+    <h1>📦 AMZL Quiz</h1>
+    <span class="badge" id="levelBadge">Nivel 1</span>
+  </div>
+  <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar" style="width:0%"></div></div>
+  
+  <div class="stats-row">
+    <div class="stat"><div class="val" id="statXP">0</div><div class="lbl">XP Total</div></div>
+    <div class="stat"><div class="val" id="statStreak">0</div><div class="lbl">🔥 Racha</div></div>
+    <div class="stat"><div class="val" id="statAccuracy">-</div><div class="lbl">% Acierto</div></div>
+  </div>
+
+  <div class="menu-grid">
+    <div class="menu-card" onclick="startGame('arcade')">
+      <div class="icon">⚡</div>
+      <div class="label">Arcade</div>
+      <div class="desc">20 preguntas, contra reloj</div>
+    </div>
+    <div class="menu-card" onclick="startGame('survival')">
+      <div class="icon">💀</div>
+      <div class="label">Supervivencia</div>
+      <div class="desc">3 vidas, ¿cuánto aguantas?</div>
+    </div>
+    <div class="menu-card" onclick="startGame('study')">
+      <div class="icon">📚</div>
+      <div class="label">Estudio</div>
+      <div class="desc">Flashcards sin presión</div>
+    </div>
+    <div class="menu-card" onclick="startGame('blitz')">
+      <div class="icon">🏎️</div>
+      <div class="label">Blitz</div>
+      <div class="desc">60 seg, ¡las que puedas!</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px">
+    <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px">Filtrar categorías:</div>
+    <div class="cat-filter" id="catFilter"></div>
+  </div>
+</div>
+
+<!-- ===== GAME SCREEN (Arcade/Survival/Blitz) ===== -->
+<div class="screen" id="gameScreen">
+  <div class="game-header">
+    <button onclick="endGame()" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">✕</button>
+    <div class="game-info">
+      <span class="timer" id="timerDisplay">⏱ --</span>
+      <span class="lives" id="livesDisplay"></span>
+      <span id="scoreDisplay">⭐ 0</span>
+    </div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="gameProgress"></div></div>
+  
+  <div class="question-card">
+    <div class="q-category" id="qCat"></div>
+    <div class="q-text" id="qText"></div>
+  </div>
+  
+  <div class="options" id="optionsContainer"></div>
+</div>
+
+<!-- ===== STUDY SCREEN (Flashcards) ===== -->
+<div class="screen" id="studyScreen">
+  <div class="game-header">
+    <button onclick="endGame()" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">✕</button>
+    <div class="game-info">
+      <span id="studyProgress">1 / 10</span>
+    </div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="studyProgressBar"></div></div>
+  
+  <div class="flashcard" id="flashcard" onclick="flipCard()">
+    <div class="flash-label" id="flashLabel">Pregunta</div>
+    <div class="flash-text" id="flashText"></div>
+    <div class="flash-hint">Toca para voltear</div>
+  </div>
+  
+  <div class="flash-nav">
+    <button class="btn-dunno" onclick="studyNext(false)">No la sé 😅</button>
+    <button class="btn-know" onclick="studyNext(true)">¡La sé! ✓</button>
+  </div>
+</div>
+
+<!-- ===== RESULTS SCREEN ===== -->
+<div class="screen" id="resultsScreen">
+  <div class="results">
+    <div class="big-score" id="finalScore">0</div>
+    <div class="sub" id="finalSub">Respuestas correctas</div>
+    <div class="xp-earned" id="xpEarned">+0 XP</div>
+  </div>
+  <button class="btn-main" onclick="showMenu()">Volver al menú</button>
+  <button class="btn-main btn-secondary" onclick="retryGame()" style="margin-top:8px">Reintentar</button>
+</div>
+
+<script src="questions.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

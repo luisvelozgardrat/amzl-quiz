@@ -4,107 +4,155 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0f172a">
-<title>AMZL Quiz - DBR Trainer</title>
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#ffffff">
+<title>Amazon Hub Trainer</title>
+<link rel="apple-touch-icon" href="Logo de Amazon Hub.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0f172a;--surface:#1e293b;--card:#334155;
-  --primary:#3b82f6;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;
-  --text:#f1f5f9;--muted:#94a3b8;
+  --bg:#ffffff;
+  --surface:#f7f8fa;
+  --card:#ffffff;
+  --border:#e8eaed;
+  --navy:#1a2b49;
+  --blue:#00a8e1;
+  --gold:#c6985e;
+  --success:#34a853;
+  --danger:#ea4335;
+  --warning:#f59e0b;
+  --text:#1a2b49;
+  --muted:#6b7280;
+  --light:#9ca3af;
   --safe-top:env(safe-area-inset-top);
   --safe-bottom:env(safe-area-inset-bottom);
 }
-html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{
+  height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  -webkit-font-smoothing:antialiased;
+}
 body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
-.screen{display:none;flex-direction:column;height:100%;padding:16px;animation:fadeIn .3s}
+.screen{display:none;flex-direction:column;height:100%;padding:20px;animation:fadeIn .3s}
 .screen.active{display:flex}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* Header bar */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 0;margin-bottom:12px}
-.topbar h1{font-size:1.1rem;font-weight:700}
-.badge{background:var(--primary);padding:4px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+/* Topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 0;margin-bottom:16px}
+.topbar-logo{height:28px;object-fit:contain}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.badge{background:var(--navy);color:#fff;padding:5px 12px;border-radius:20px;font-size:.7rem;font-weight:700;letter-spacing:.3px}
 
 /* XP Bar */
-.xp-bar-wrap{width:100%;height:8px;background:var(--card);border-radius:4px;margin-bottom:16px;overflow:hidden}
-.xp-bar{height:100%;background:linear-gradient(90deg,var(--primary),#8b5cf6);border-radius:4px;transition:width .5s}
-
-/* Menu */
-.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.menu-card{background:var(--surface);border:1px solid var(--card);border-radius:16px;padding:20px 16px;text-align:center;cursor:pointer;transition:transform .15s,border-color .15s;-webkit-user-select:none;user-select:none}
-.menu-card:active{transform:scale(.96);border-color:var(--primary)}
-.menu-card .icon{font-size:2rem;margin-bottom:8px}
-.menu-card .label{font-size:.85rem;font-weight:600}
-.menu-card .desc{font-size:.7rem;color:var(--muted);margin-top:4px}
+.xp-bar-wrap{width:100%;height:6px;background:var(--surface);border-radius:3px;margin-bottom:20px;overflow:hidden}
+.xp-bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:3px;transition:width .6s ease}
 
 /* Stats row */
-.stats-row{display:flex;justify-content:space-around;background:var(--surface);border-radius:12px;padding:12px;margin-top:16px}
+.stats-row{display:flex;justify-content:space-around;background:var(--surface);border-radius:16px;padding:16px 12px}
 .stat{text-align:center}
-.stat .val{font-size:1.2rem;font-weight:700;color:var(--primary)}
-.stat .lbl{font-size:.65rem;color:var(--muted);margin-top:2px}
+.stat .val{font-size:1.3rem;font-weight:800;color:var(--navy)}
+.stat .lbl{font-size:.6rem;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+
+/* Menu grid */
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.menu-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.menu-card:active{transform:scale(.96);border-color:var(--blue);box-shadow:0 4px 16px rgba(0,168,225,.12)}
+.menu-card .icon{font-size:2.2rem;margin-bottom:10px}
+.menu-card .label{font-size:.85rem;font-weight:700;color:var(--navy)}
+.menu-card .desc{font-size:.68rem;color:var(--muted);margin-top:4px}
+
+/* Category filter */
+.cat-section{margin-top:20px}
+.cat-title{font-size:.7rem;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.cat-filter{display:flex;flex-wrap:wrap;gap:6px}
+.cat-chip{padding:6px 14px;border-radius:20px;font-size:.7rem;font-weight:600;background:var(--surface);border:1.5px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s}
+.cat-chip.active{background:var(--navy);border-color:var(--navy);color:#fff}
 
 /* Game screen */
-.game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.game-info{display:flex;gap:12px;font-size:.8rem}
+.game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.game-info{display:flex;gap:12px;font-size:.8rem;font-weight:600}
 .game-info span{display:flex;align-items:center;gap:4px}
-.timer{font-variant-numeric:tabular-nums;color:var(--warning);font-weight:700}
+.timer{color:var(--navy);font-variant-numeric:tabular-nums}
 .lives{color:var(--danger)}
+.btn-close{background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:4px}
 
-.progress-bar-wrap{width:100%;height:4px;background:var(--card);border-radius:2px;margin-bottom:16px}
-.progress-bar{height:100%;background:var(--success);border-radius:2px;transition:width .3s}
+.progress-bar-wrap{width:100%;height:4px;background:var(--surface);border-radius:2px;margin-bottom:20px}
+.progress-bar{height:100%;background:var(--blue);border-radius:2px;transition:width .3s}
 
-.question-card{background:var(--surface);border-radius:16px;padding:20px;margin-bottom:16px;flex-shrink:0}
-.q-category{font-size:.7rem;color:var(--primary);font-weight:600;text-transform:uppercase;margin-bottom:8px}
-.q-text{font-size:1rem;font-weight:600;line-height:1.4}
+.question-card{background:var(--surface);border-radius:20px;padding:24px;margin-bottom:16px;flex-shrink:0}
+.q-category{font-size:.65rem;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.q-text{font-size:1.05rem;font-weight:700;line-height:1.5;color:var(--navy)}
 
 .options{display:flex;flex-direction:column;gap:10px;flex:1;overflow-y:auto;padding-bottom:16px}
-.opt-btn{width:100%;padding:14px 16px;background:var(--surface);border:2px solid var(--card);border-radius:12px;color:var(--text);font-size:.9rem;text-align:left;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none;line-height:1.3}
-.opt-btn:active{transform:scale(.98)}
-.opt-btn.correct{border-color:var(--success);background:rgba(16,185,129,.15)}
-.opt-btn.wrong{border-color:var(--danger);background:rgba(239,68,68,.15)}
+.opt-btn{width:100%;padding:16px 18px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;color:var(--text);font-size:.88rem;text-align:left;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none;line-height:1.4;box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.opt-btn:active{transform:scale(.98);border-color:var(--blue)}
+.opt-btn.correct{border-color:var(--success);background:rgba(52,168,83,.08);color:var(--success);font-weight:600}
+.opt-btn.wrong{border-color:var(--danger);background:rgba(234,67,53,.06);color:var(--danger)}
 .opt-btn.disabled{pointer-events:none;opacity:.7}
 
+/* Explanation Panel */
+.explain-panel{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:24px 24px 0 0;padding:24px 20px;padding-bottom:calc(24px + var(--safe-bottom));box-shadow:0 -8px 40px rgba(0,0,0,.12);transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:100}
+.explain-panel.active{transform:translateY(0)}
+.explain-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.explain-icon{font-size:1.5rem}
+.explain-title{font-size:1rem;font-weight:800}
+.explain-correct .explain-title{color:var(--success)}
+.explain-wrong .explain-title{color:var(--danger)}
+.streak-badge{margin-left:auto;background:linear-gradient(135deg,#ff6b35,#f7c948);color:#fff;padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:700}
+.explain-body{margin-bottom:18px}
+.explain-answer{font-size:.85rem;color:var(--navy);font-weight:600;margin-bottom:8px;padding:12px;background:var(--surface);border-radius:12px}
+.explain-detail{font-size:.82rem;color:var(--muted);line-height:1.6}
+.btn-continue{width:100%;padding:16px;border-radius:14px;border:none;background:var(--navy);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+.btn-continue:active{opacity:.8}
+
 /* Flashcard mode */
-.flashcard{background:var(--surface);border-radius:20px;padding:32px 20px;text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;transition:transform .3s;perspective:1000px}
-.flashcard.flipped{background:linear-gradient(135deg,var(--surface),rgba(59,130,246,.1))}
-.flash-label{font-size:.7rem;color:var(--muted);margin-bottom:12px;text-transform:uppercase}
-.flash-text{font-size:1.1rem;font-weight:600;line-height:1.5}
-.flash-hint{font-size:.75rem;color:var(--muted);margin-top:16px}
+.flashcard{background:var(--surface);border-radius:24px;padding:36px 24px;text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;transition:all .3s;border:1.5px solid var(--border)}
+.flashcard.flipped{background:linear-gradient(135deg,#f0f9ff,#e8f4fd);border-color:var(--blue)}
+.flash-label{font-size:.65rem;color:var(--muted);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.flash-text{font-size:1.1rem;font-weight:700;line-height:1.6;color:var(--navy)}
+.flash-hint{font-size:.72rem;color:var(--light);margin-top:20px}
 
 .flash-nav{display:flex;gap:12px;margin-top:16px}
-.flash-nav button{flex:1;padding:14px;border-radius:12px;border:none;font-size:.9rem;font-weight:600;cursor:pointer}
+.flash-nav button{flex:1;padding:16px;border-radius:14px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+.flash-nav button:active{opacity:.8}
 .btn-know{background:var(--success);color:#fff}
 .btn-dunno{background:var(--danger);color:#fff}
-.btn-next{background:var(--primary);color:#fff}
 
 /* Results */
 .results{text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center}
-.results .big-score{font-size:3rem;font-weight:800;background:linear-gradient(135deg,var(--primary),#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.results .big-score{font-size:3.5rem;font-weight:900;color:var(--navy)}
 .results .sub{color:var(--muted);margin-top:8px;font-size:.9rem}
-.results .xp-earned{color:var(--success);font-size:1.2rem;font-weight:700;margin-top:16px}
+.results .xp-earned{color:var(--blue);font-size:1.3rem;font-weight:800;margin-top:20px}
 
-.btn-main{width:100%;padding:16px;border-radius:14px;border:none;background:var(--primary);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;margin-top:16px}
+.btn-main{width:100%;padding:16px;border-radius:14px;border:none;background:var(--navy);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:12px;transition:opacity .2s}
 .btn-main:active{opacity:.8}
-.btn-secondary{background:var(--surface);border:2px solid var(--card);color:var(--text)}
+.btn-secondary{background:var(--surface);border:1.5px solid var(--border);color:var(--navy)}
 
-/* Category filter */
-.cat-filter{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
-.cat-chip{padding:6px 12px;border-radius:20px;font-size:.7rem;font-weight:600;background:var(--surface);border:1px solid var(--card);cursor:pointer;transition:all .2s}
-.cat-chip.active{background:var(--primary);border-color:var(--primary);color:#fff}
+/* Weakness dashboard */
+.weakness-section{margin-top:20px}
+.weakness-title{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:10px}
+.weakness-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.weakness-bar .wlabel{font-size:.72rem;font-weight:600;color:var(--navy);width:80px;flex-shrink:0}
+.weakness-bar .wtrack{flex:1;height:6px;background:var(--surface);border-radius:3px;overflow:hidden}
+.weakness-bar .wfill{height:100%;border-radius:3px;transition:width .5s}
+.weakness-bar .wpct{font-size:.65rem;color:var(--muted);width:32px;text-align:right}
 
-/* Streak animation */
-@keyframes streak{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
-.streak-anim{animation:streak .4s ease}
+/* Confetti */
+@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200;overflow:hidden}
+.confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:confetti-fall 2.5s ease-out forwards}
 
-/* Responsive tweaks for larger phones */
+/* Responsive */
 @media(min-height:800px){
-  .question-card{padding:24px}
+  .question-card{padding:28px}
   .q-text{font-size:1.1rem}
-  .opt-btn{padding:16px 18px}
+  .opt-btn{padding:18px 20px}
 }
 </style>
 </head>
@@ -113,15 +161,17 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <!-- ===== MENU SCREEN ===== -->
 <div class="screen active" id="menuScreen">
   <div class="topbar">
-    <h1>📦 AMZL Quiz</h1>
-    <span class="badge" id="levelBadge">Nivel 1</span>
+    <img src="Logo de Amazon Hub.png" alt="Amazon Hub" class="topbar-logo">
+    <div class="topbar-right">
+      <span class="badge" id="levelBadge">NIVEL 1</span>
+    </div>
   </div>
   <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar" style="width:0%"></div></div>
-  
+
   <div class="stats-row">
     <div class="stat"><div class="val" id="statXP">0</div><div class="lbl">XP Total</div></div>
     <div class="stat"><div class="val" id="statStreak">0</div><div class="lbl">🔥 Racha</div></div>
-    <div class="stat"><div class="val" id="statAccuracy">-</div><div class="lbl">% Acierto</div></div>
+    <div class="stat"><div class="val" id="statAccuracy">-</div><div class="lbl">Acierto</div></div>
   </div>
 
   <div class="menu-grid">
@@ -147,16 +197,18 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     </div>
   </div>
 
-  <div style="margin-top:16px">
-    <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px">Filtrar categorías:</div>
+  <div class="weakness-section" id="weaknessSection"></div>
+
+  <div class="cat-section">
+    <div class="cat-title">Filtrar categorías</div>
     <div class="cat-filter" id="catFilter"></div>
   </div>
 </div>
 
-<!-- ===== GAME SCREEN (Arcade/Survival/Blitz) ===== -->
+<!-- ===== GAME SCREEN ===== -->
 <div class="screen" id="gameScreen">
   <div class="game-header">
-    <button onclick="endGame()" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">✕</button>
+    <button class="btn-close" onclick="endGame()">✕</button>
     <div class="game-info">
       <span class="timer" id="timerDisplay">⏱ --</span>
       <span class="lives" id="livesDisplay"></span>
@@ -164,31 +216,31 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     </div>
   </div>
   <div class="progress-bar-wrap"><div class="progress-bar" id="gameProgress"></div></div>
-  
+
   <div class="question-card">
     <div class="q-category" id="qCat"></div>
     <div class="q-text" id="qText"></div>
   </div>
-  
+
   <div class="options" id="optionsContainer"></div>
 </div>
 
-<!-- ===== STUDY SCREEN (Flashcards) ===== -->
+<!-- ===== STUDY SCREEN ===== -->
 <div class="screen" id="studyScreen">
   <div class="game-header">
-    <button onclick="endGame()" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">✕</button>
+    <button class="btn-close" onclick="endGame()">✕</button>
     <div class="game-info">
       <span id="studyProgress">1 / 10</span>
     </div>
   </div>
   <div class="progress-bar-wrap"><div class="progress-bar" id="studyProgressBar"></div></div>
-  
+
   <div class="flashcard" id="flashcard" onclick="flipCard()">
     <div class="flash-label" id="flashLabel">Pregunta</div>
     <div class="flash-text" id="flashText"></div>
     <div class="flash-hint">Toca para voltear</div>
   </div>
-  
+
   <div class="flash-nav">
     <button class="btn-dunno" onclick="studyNext(false)">No la sé 😅</button>
     <button class="btn-know" onclick="studyNext(true)">¡La sé! ✓</button>
@@ -203,8 +255,14 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     <div class="xp-earned" id="xpEarned">+0 XP</div>
   </div>
   <button class="btn-main" onclick="showMenu()">Volver al menú</button>
-  <button class="btn-main btn-secondary" onclick="retryGame()" style="margin-top:8px">Reintentar</button>
+  <button class="btn-main btn-secondary" onclick="retryGame()">Reintentar</button>
 </div>
+
+<!-- ===== EXPLANATION PANEL (slide-up) ===== -->
+<div class="explain-panel" id="explanationPanel"></div>
+
+<!-- ===== CONFETTI CONTAINER ===== -->
+<div class="confetti" id="confettiContainer"></div>
 
 <script src="questions.js"></script>
 <script src="game.js"></script>

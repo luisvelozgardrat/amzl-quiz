@@ -324,8 +324,9 @@ function selectAnswer(btn, answer) {
 // === EXPLANATION PANEL ===
 function showExplanation(q, correct) {
   const panel = document.getElementById('explanationPanel');
+  panel.className = correct ? 'explain-panel active' : 'explain-panel active explain-wrong-panel';
   const icon = correct ? '✅' : '❌';
-  const title = correct ? '¡Correcto!' : 'Incorrecto';
+  const title = correct ? '¡Bien hecho!' : 'Respuesta incorrecta';
   const streakHTML = (correct && state.streak > 1) ? `<span class="streak-badge">🔥 ${state.streak}</span>` : '';
   const explain = q.explain || q.a;
 
@@ -339,14 +340,14 @@ function showExplanation(q, correct) {
       <div class="explain-answer">✓ ${q.a}</div>
       <div class="explain-detail">${explain}</div>
     </div>
-    <button class="btn-continue" onclick="continueGame()">Continuar →</button>
+    <button class="btn-continue" onclick="continueGame()">CONTINUAR</button>
   `;
-  panel.classList.add('active');
   panel.scrollIntoView({behavior:'smooth',block:'end'});
 }
 
 function continueGame() {
-  document.getElementById('explanationPanel').classList.remove('active');
+  const panel = document.getElementById('explanationPanel');
+  panel.className = 'explain-panel';
 
   if (game.mode === 'survival' && game.lives <= 0) { endGame(); return; }
   game.idx++;

@@ -149,44 +149,50 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .cat-chip.active{background:linear-gradient(135deg,#1a2b49,#2d4a7a);border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(26,43,73,.25)}
 
 /* Game screen */
-.game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.game-info{display:flex;gap:12px;font-size:.8rem;font-weight:600}
+.game-header{display:flex;align-items:center;margin-bottom:16px}
+.game-info{display:flex;gap:10px;font-size:.85rem;font-weight:700}
 .game-info span{display:flex;align-items:center;gap:4px}
 .timer{color:var(--text);font-variant-numeric:tabular-nums}
-.lives{color:var(--danger)}
-.btn-close{background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:4px;}
+.lives{color:var(--danger);font-size:1.1rem}
+.game-timer-float{position:fixed;bottom:12px;left:12px;font-size:.7rem;color:var(--light);font-weight:600;font-variant-numeric:tabular-nums;z-index:10}
+.btn-close{background:none;border:none;color:var(--light);font-size:1.6rem;cursor:pointer;padding:6px;line-height:1}
 .btn-close:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
-.progress-bar-wrap{width:100%;height:4px;background:var(--surface);border-radius:2px;margin-bottom:20px}
-.progress-bar{height:100%;background:var(--blue);border-radius:2px;transition:width .3s}
+.progress-bar-wrap{width:100%;height:14px;background:var(--surface);border-radius:7px;margin-bottom:20px;overflow:hidden;border:1.5px solid var(--border)}
+.progress-bar{height:100%;background:linear-gradient(90deg,#58cc02,#46a302);border-radius:7px;transition:width .4s ease;box-shadow:inset 0 -2px 0 rgba(0,0,0,.1)}
 
-.question-card{background:var(--surface);border-radius:20px;padding:24px;margin-bottom:16px;flex-shrink:0}
-.q-category{font-size:.65rem;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
-.q-text{font-size:1.05rem;font-weight:700;line-height:1.5;color:var(--text)}
+#gameScreen{padding:20px 24px;justify-content:flex-start}
+.question-card{background:transparent;border-radius:0;padding:40px 0 28px;margin-bottom:0;flex-shrink:0}
+.q-category{font-size:.7rem;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.q-text{font-size:1.25rem;font-weight:800;line-height:1.5;color:var(--text)}
 
-.options{display:flex;flex-direction:column;gap:10px;flex:1;overflow-y:auto;padding-bottom:16px}
-.opt-btn{width:100%;padding:16px 18px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;color:var(--text);font-size:.88rem;text-align:left;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none;line-height:1.4;box-shadow:0 1px 4px rgba(0,0,0,.03)}
-.opt-btn:active{transform:scale(.98);border-color:var(--blue)}
-.opt-btn.correct{border-color:var(--success);background:rgba(52,168,83,.08);color:var(--success);font-weight:600;animation:popIn .3s}
-.opt-btn.wrong{border-color:var(--danger);background:rgba(234,67,53,.06);color:var(--danger);animation:shake .4s}
-.opt-btn.disabled{pointer-events:none;opacity:.7}
+.options{display:flex;flex-direction:column;gap:12px;flex:1;overflow-y:auto;padding-bottom:16px}
+.opt-btn{width:100%;padding:18px 20px;background:var(--bg);border:2.5px solid var(--border);border-radius:16px;color:var(--text);font-size:.92rem;font-weight:500;text-align:left;cursor:pointer;transition:all .15s;-webkit-user-select:none;user-select:none;line-height:1.5;box-shadow:0 3px 0 var(--border)}
+.opt-btn:hover{background:var(--surface)}
+.opt-btn:active{transform:translateY(3px);box-shadow:none;border-color:var(--blue);background:rgba(0,168,225,.04)}
+.opt-btn.correct{border-color:#58cc02;background:rgba(88,204,2,.1);color:#58a700;font-weight:700;box-shadow:0 3px 0 #46a302;animation:popIn .3s}
+.opt-btn.wrong{border-color:#ff4b4b;background:rgba(255,75,75,.06);color:#ea2b2b;font-weight:700;box-shadow:0 3px 0 #cc3b3b;animation:shake .4s}
+.opt-btn.disabled{pointer-events:none;opacity:.55}
 @keyframes popIn{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
 
-/* Explanation Panel */
-.explain-panel{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:24px 24px 0 0;padding:24px 20px;padding-bottom:calc(24px + var(--safe-bottom));box-shadow:0 -8px 40px rgba(0,0,0,.12);transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:100;pointer-events:none}
+/* Explanation Panel - Duolingo bottom bar */
+.explain-panel{position:fixed;bottom:0;left:0;right:0;background:#d7ffb8;border-radius:0;padding:24px 24px;padding-bottom:calc(24px + var(--safe-bottom));box-shadow:0 -2px 12px rgba(0,0,0,.06);transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:100;pointer-events:none}
 .explain-panel.active{transform:translateY(0);pointer-events:auto}
-.explain-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.explain-panel.explain-wrong-panel{background:#ffdfe0}
+.explain-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .explain-icon{font-size:1.5rem}
-.explain-title{font-size:1rem;font-weight:800}
-.explain-correct .explain-title{color:var(--success)}
-.explain-wrong .explain-title{color:var(--danger)}
-.streak-badge{margin-left:auto;background:linear-gradient(135deg,#ff6b35,#f7c948);color:#fff;padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:700}
-.explain-body{margin-bottom:18px}
-.explain-answer{font-size:.85rem;color:var(--text);font-weight:600;margin-bottom:8px;padding:12px;background:var(--surface);border-radius:12px}
-.explain-detail{font-size:.82rem;color:var(--muted);line-height:1.6}
-.btn-continue{width:100%;padding:16px;border-radius:14px;border:none;background:var(--navy);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .2s}
-.btn-continue:active{opacity:.8}
+.explain-title{font-size:1.1rem;font-weight:800}
+.explain-correct .explain-title{color:#58a700}
+.explain-wrong .explain-title{color:#ea2b2b}
+.streak-badge{margin-left:auto;background:rgba(88,167,0,.15);color:#58a700;padding:4px 12px;border-radius:12px;font-size:.7rem;font-weight:800}
+.explain-body{margin-bottom:14px}
+.explain-answer{font-size:.85rem;color:#58a700;font-weight:700;margin-bottom:4px;padding:0;background:transparent;border-radius:0}
+.explain-wrong-panel .explain-answer{color:#ea2b2b}
+.explain-detail{font-size:.8rem;color:rgba(0,0,0,.55);line-height:1.5}
+.btn-continue{width:100%;padding:16px;border-radius:16px;border:none;background:#58cc02;color:#fff;font-size:1rem;font-weight:800;cursor:pointer;transition:all .15s;box-shadow:0 4px 0 #46a302;text-transform:uppercase;letter-spacing:.5px}
+.btn-continue:active{transform:translateY(4px);box-shadow:none}
+.explain-wrong-panel .btn-continue{background:#ff4b4b;box-shadow:0 4px 0 #cc3b3b}
 
 /* Flashcard mode */
 .flashcard{background:var(--surface);border-radius:24px;padding:36px 24px;text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;transition:all .3s;border:1.5px solid var(--border)}
@@ -308,10 +314,12 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .opt-btn:focus-visible,.menu-card:focus-visible,.btn-main:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
 /* Responsive */
+@media(min-width:600px){
+  #gameScreen,#studyScreen,#scenarioScreen,#connectionsScreen{max-width:600px;margin:0 auto}
+}
 @media(min-height:800px){
-  .question-card{padding:28px}
-  .q-text{font-size:1.1rem}
-  .opt-btn{padding:18px 20px}
+  .q-text{font-size:1.35rem}
+  .opt-btn{padding:20px 22px;font-size:.95rem}
 }
 </style>
 </head>
@@ -425,13 +433,12 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <div class="screen" id="gameScreen">
   <div class="game-header">
     <button class="btn-close" onclick="endGame()">✕</button>
+    <div class="progress-bar-wrap" style="flex:1;margin:0 14px"><div class="progress-bar" id="gameProgress"></div></div>
     <div class="game-info">
-      <span class="timer" id="timerDisplay">⏱ --</span>
       <span class="lives" id="livesDisplay"></span>
       <span id="scoreDisplay">⭐ 0</span>
     </div>
   </div>
-  <div class="progress-bar-wrap"><div class="progress-bar" id="gameProgress"></div></div>
 
   <div class="question-card">
     <div class="q-category" id="qCat"></div>
@@ -439,6 +446,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
 
   <div class="options" id="optionsContainer"></div>
+  <div class="game-timer-float" id="timerDisplay">⏱ --</div>
 </div>
 
 <!-- ===== STUDY SCREEN ===== -->

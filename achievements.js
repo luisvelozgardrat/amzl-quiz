@@ -55,4 +55,25 @@ function renderAchievements(){
       <div class="ach-desc">${a.desc}</div>
     </div>`;
   }).join('');
+  renderWeeklyChart();
+}
+
+function renderWeeklyChart(){
+  const container=document.getElementById('weeklyBars');
+  const days=['L','M','X','J','V','S','D'];
+  const today=new Date();
+  let bars=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(today); d.setDate(d.getDate()-i);
+    const dateStr=d.toISOString().slice(0,10);
+    const log=state.weeklyLog.find(l=>l.date===dateStr);
+    const count=log?log.answered:0;
+    const dayIdx=d.getDay()===0?6:d.getDay()-1;
+    bars.push({label:days[dayIdx],count});
+  }
+  const max=Math.max(...bars.map(b=>b.count),1);
+  container.innerHTML=bars.map(b=>{
+    const h=Math.max((b.count/max)*100,4);
+    return `<div class="weekly-bar-col"><div class="weekly-bar-track"><div class="weekly-bar" style="height:${h}%"></div></div><div class="weekly-bar-label">${b.label}</div></div>`;
+  }).join('');
 }

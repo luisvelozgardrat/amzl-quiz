@@ -27,6 +27,15 @@
   --safe-top:env(safe-area-inset-top);
   --safe-bottom:env(safe-area-inset-bottom);
 }
+[data-theme="dark"]{
+  --bg:#0f1b2d;
+  --surface:#1a2b49;
+  --card:#1e3050;
+  --border:#2d4a6a;
+  --text:#e8eaed;
+  --muted:#9ca3af;
+  --light:#6b7280;
+}
 html,body{
   height:100%;
   font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',system-ui,sans-serif;
@@ -292,7 +301,10 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   <div class="hero">
     <div class="hero-top">
       <img src="logo.png" alt="Amazon Hub" class="hero-logo">
-      <span class="badge" id="levelBadge">NIVEL 1</span>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button onclick="toggleTheme()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;padding:4px" id="themeToggle">🌙</button>
+        <span class="badge" id="levelBadge">NIVEL 1</span>
+      </div>
     </div>
     <div class="hero-subtitle">Hub Location Trainer</div>
     <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar" style="width:0%"></div></div>

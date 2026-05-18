@@ -471,4 +471,21 @@ function toggleCollapsible(header){
   body.classList.toggle('open');
 }
 
+function toggleTheme(){
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',isDark?'':'dark');
+  localStorage.setItem('hubTheme',isDark?'light':'dark');
+  document.getElementById('themeToggle').textContent=isDark?'🌙':'☀️';
+}
+
+// Apply saved theme
+(function(){
+  const saved=localStorage.getItem('hubTheme');
+  if(saved==='dark'){
+    document.documentElement.setAttribute('data-theme','dark');
+    const btn=document.getElementById('themeToggle');
+    if(btn) btn.textContent='☀️';
+  }
+})();
+
 init();

@@ -68,6 +68,9 @@ function addDailyProgress(){
   state.dailyDone++;
   const todayLog = state.weeklyLog.find(l=>l.date===getToday());
   if(todayLog) todayLog.answered++;
+  if(state.dailyDone===state.dailyGoal){
+    setTimeout(()=>{showToast('🎉','¡Meta diaria completada!');playSound('levelup');fireConfetti();},500);
+  }
   save();
 }
 
@@ -632,6 +635,15 @@ function toggleTheme(){
   document.documentElement.setAttribute('data-theme',isDark?'':'dark');
   localStorage.setItem('hubTheme',isDark?'light':'dark');
   document.getElementById('themeToggle').textContent=isDark?'🌙':'☀️';
+}
+
+function changeDailyGoal(){
+  const goals=[5,10,15,20,30];
+  const current=goals.indexOf(state.dailyGoal);
+  state.dailyGoal=goals[(current+1)%goals.length];
+  save();
+  updateMenuStats();
+  showToast('🎯',`Meta diaria: ${state.dailyGoal} preguntas`);
 }
 
 // Apply saved theme

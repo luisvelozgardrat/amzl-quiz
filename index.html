@@ -239,6 +239,17 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
 /* Scenario */
 .scenario-card{background:var(--surface);border-radius:20px;padding:22px;margin-bottom:14px}
+
+/* Onboarding */
+.onboarding{position:fixed;inset:0;background:rgba(15,27,45,.92);z-index:400;display:flex;align-items:center;justify-content:center;padding:30px;backdrop-filter:blur(6px)}
+.onboarding-card{background:var(--card);border-radius:24px;padding:36px 28px;max-width:340px;width:100%;text-align:center;animation:fadeIn .4s}
+.onboarding-icon{font-size:3rem;margin-bottom:16px}
+.onboarding-title{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:10px}
+.onboarding-desc{font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:24px}
+.onboarding-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
+.onboarding-dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+.onboarding-dot.active{background:var(--blue)}
+.onboarding-btn{width:100%;padding:14px;border-radius:12px;border:none;background:var(--navy);color:#fff;font-size:.9rem;font-weight:700;cursor:pointer}
 .scenario-title{font-size:.95rem;font-weight:800;color:var(--navy);margin-bottom:10px}
 .scenario-context{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
 .scenario-metric{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-size:.78rem;font-weight:700;color:var(--blue);font-family:'SF Mono',monospace;margin-bottom:12px}
@@ -500,6 +511,17 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
 <!-- ===== CONFETTI CONTAINER ===== -->
 <div class="confetti" id="confettiContainer"></div>
+
+<!-- ===== ONBOARDING ===== -->
+<div class="onboarding" id="onboarding" style="display:none">
+  <div class="onboarding-card">
+    <div class="onboarding-icon" id="obIcon"></div>
+    <div class="onboarding-title" id="obTitle"></div>
+    <div class="onboarding-desc" id="obDesc"></div>
+    <div class="onboarding-dots" id="obDots"></div>
+    <button class="onboarding-btn" id="obBtn" onclick="nextOnboarding()">Siguiente</button>
+  </div>
+</div>
 
 <script src="questions.js?v=2"></script>
 <script src="scenarios.js?v=2"></script>

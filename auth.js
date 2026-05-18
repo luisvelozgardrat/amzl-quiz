@@ -30,6 +30,7 @@ function doLogin(){
       document.getElementById('splashScreen').style.display='none';
       document.getElementById('menuScreen').classList.add('active');
       setTimeout(()=>showToast('🚀','¡Bienvenido! Hoy es un gran día para aprender.'),400);
+      setTimeout(()=>showOnboarding(),1000);
     },2200);
   } else {
     err.textContent='Usuario o contraseña incorrectos';
@@ -50,4 +51,36 @@ function showToast(icon,msg){
   t.querySelector('.toast-msg').textContent=msg;
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+// === ONBOARDING ===
+const OB_STEPS=[
+  {icon:'🎮',title:'Aprende jugando',desc:'4 modos de juego para dominar las métricas del DBR: Arcade, Supervivencia, Blitz y Estudio.'},
+  {icon:'🧠',title:'Escenarios reales',desc:'Practica con datos reales del DBR. Decide qué acción tomar como si fuera tu primer día.'},
+  {icon:'🏆',title:'Desbloquea logros',desc:'Gana XP, sube de nivel y desbloquea achievements. Tu progreso se guarda automáticamente.'}
+];
+let obStep=0;
+
+function showOnboarding(){
+  if(localStorage.getItem('hubOnboardingDone')) return;
+  document.getElementById('onboarding').style.display='flex';
+  obStep=0;
+  renderOBStep();
+}
+
+function renderOBStep(){
+  const s=OB_STEPS[obStep];
+  document.getElementById('obIcon').textContent=s.icon;
+  document.getElementById('obTitle').textContent=s.title;
+  document.getElementById('obDesc').textContent=s.desc;
+  document.getElementById('obDots').innerHTML=OB_STEPS.map((_,i)=>`<div class="onboarding-dot ${i===obStep?'active':''}"></div>`).join('');
+  document.getElementById('obBtn').textContent=obStep===OB_STEPS.length-1?'¡Empezar!':'Siguiente';
+}
+
+function nextOnboarding(){
+  obStep++;
+  if(obStep>=OB_STEPS.length){
+    document.getElementById('onboarding').style.display='none';
+    localStorage.setItem('hubOnboardingDone','true');
+  } else { renderOBStep(); }
 }

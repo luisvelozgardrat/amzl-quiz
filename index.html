@@ -168,6 +168,21 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200;overflow:hidden}
 .confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:confetti-fall 2.5s ease-out forwards}
 
+/* Podcast */
+.podcast-transcript{flex:1;overflow-y:auto;padding-bottom:110px}
+.podcast-bubble{padding:14px 18px;border-radius:16px;margin-bottom:10px;font-size:.84rem;line-height:1.6}
+.podcast-bubble.speaker-a{background:var(--surface);border:1px solid var(--border);margin-right:30px}
+.podcast-bubble.speaker-b{background:rgba(0,168,225,.06);border:1px solid rgba(0,168,225,.15);margin-left:30px}
+.podcast-bubble .speaker-name{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.podcast-bubble.speaker-a .speaker-name{color:var(--navy)}
+.podcast-bubble.speaker-b .speaker-name{color:var(--blue)}
+.podcast-bubble.active{box-shadow:0 0 0 2px var(--blue)}
+.podcast-controls{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:16px 20px;padding-bottom:calc(16px + var(--safe-bottom));display:flex;align-items:center;justify-content:center;gap:16px;z-index:50}
+.podcast-controls button{width:48px;height:48px;border-radius:50%;border:none;font-size:1.2rem;cursor:pointer;transition:all .2s}
+.podcast-controls button:active{transform:scale(.9)}
+.btn-play{background:var(--navy);color:#fff;width:56px;height:56px;font-size:1.4rem}
+.btn-skip{background:var(--surface);border:1.5px solid var(--border)}
+
 /* Responsive */
 @media(min-height:800px){
   .question-card{padding:28px}
@@ -216,6 +231,13 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
       <div class="label">Blitz</div>
       <div class="desc">60 seg, ¡las que puedas!</div>
     </div>
+  </div>
+
+  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="startPodcast()">
+    <div class="icon">🎙️</div>
+    <div class="label">Podcast</div>
+    <div class="desc">Escucha dos compañeros explicándote todo</div>
+  </div>
   </div>
 
   <div class="weakness-section" id="weaknessSection"></div>
@@ -279,6 +301,20 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   <button class="btn-main btn-secondary" onclick="retryGame()">Reintentar</button>
 </div>
 
+<!-- ===== PODCAST SCREEN ===== -->
+<div class="screen" id="podcastScreen">
+  <div class="game-header">
+    <button class="btn-close" onclick="endPodcast()">✕</button>
+    <div class="game-info"><span id="podcastStatus">⏸ Pausado</span></div>
+  </div>
+  <div class="podcast-transcript" id="podcastTranscript"></div>
+  <div class="podcast-controls">
+    <button class="btn-skip" onclick="podcastPrev()">⏮</button>
+    <button class="btn-play" id="btnPlay" onclick="podcastToggle()">▶</button>
+    <button class="btn-skip" onclick="podcastNext()">⏭</button>
+  </div>
+</div>
+
 <!-- ===== EXPLANATION PANEL (slide-up) ===== -->
 <div class="explain-panel" id="explanationPanel"></div>
 
@@ -286,6 +322,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <div class="confetti" id="confettiContainer"></div>
 
 <script src="questions.js"></script>
+<script src="podcast.js"></script>
 <script src="game.js"></script>
 </body>
 </html>

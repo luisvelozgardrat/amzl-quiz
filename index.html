@@ -60,7 +60,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .login-box{width:100%;max-width:340px;position:relative;z-index:1}
 .login-logo{display:block;margin:0 auto 12px;height:52px;filter:brightness(0) invert(1)}
 .login-subtitle{text-align:center;color:rgba(255,255,255,.5);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:40px}
-.login-field{width:100%;padding:16px 18px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#fff;font-size:.9rem;margin-bottom:14px;outline:none;transition:border-color .2s;backdrop-filter:blur(8px)}
+.login-field{width:100%;padding:16px 18px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#fff;font-size:.9rem;margin-bottom:14px;outline:none;transition:border-color .2s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .login-field::placeholder{color:rgba(255,255,255,.35)}
 .login-field:focus{border-color:var(--blue)}
 .login-btn{width:100%;padding:16px;border-radius:12px;border:none;background:linear-gradient(135deg,#00a8e1,#0090c5);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:8px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 24px rgba(0,168,225,.3)}
@@ -75,7 +75,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 @keyframes splashFadeIn{to{opacity:1}}
 
 /* Toast */
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 22px;box-shadow:0 12px 40px rgba(0,0,0,.12);z-index:300;transition:transform .4s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;gap:10px;max-width:320px}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 22px;box-shadow:0 12px 40px rgba(0,0,0,.15);z-index:300;transition:transform .4s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;gap:10px;max-width:320px}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast .toast-icon{font-size:1.3rem}
 .toast .toast-msg{font-size:.82rem;font-weight:600;color:var(--navy);line-height:1.4}
@@ -375,30 +375,21 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     <div class="label">Podcast</div>
     <div class="desc">Escucha dos compañeros explicándote todo</div>
   </div>
-  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="openGlossary()">
-    <div class="icon">🔍</div>
-    <div class="label">Glosario</div>
-    <div class="desc">Busca cualquier término o acrónimo</div>
-  </div>
-  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="openAchievements()">
-    <div class="icon">🏆</div>
-    <div class="label">Logros</div>
-    <div class="desc">Desbloquea achievements jugando</div>
-  </div>
-  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="startErrorReview()">
-    <div class="icon">❌</div>
-    <div class="label">Repasar Errores</div>
-    <div class="desc">Practica las preguntas que has fallado</div>
-  </div>
-  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="startScenario()">
-    <div class="icon">🧠</div>
-    <div class="label">Escenario Real</div>
-    <div class="desc">Decide qué acción tomar con datos del DBR</div>
-  </div>
-  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="startConnections()">
-    <div class="icon">🔗</div>
-    <div class="label">Conexiones</div>
-    <div class="desc">Causa → Efecto: entiende las relaciones</div>
+
+  <div class="cat-section" style="margin-top:14px">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <span class="col-title">Más herramientas</span>
+      <span class="col-chevron">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <div style="display:flex;flex-direction:column;gap:10px;padding-top:10px">
+        <div class="menu-card" style="margin:0" onclick="openGlossary()"><div class="icon">🔍</div><div class="label">Glosario</div></div>
+        <div class="menu-card" style="margin:0" onclick="openAchievements()"><div class="icon">🏆</div><div class="label">Logros</div></div>
+        <div class="menu-card" style="margin:0" onclick="startErrorReview()"><div class="icon">❌</div><div class="label">Repasar Errores</div></div>
+        <div class="menu-card" style="margin:0" onclick="startScenario()"><div class="icon">🧠</div><div class="label">Escenario Real</div></div>
+        <div class="menu-card" style="margin:0" onclick="startConnections()"><div class="icon">🔗</div><div class="label">Conexiones</div></div>
+      </div>
+    </div>
   </div>
 
   <div class="weakness-section" id="weaknessSection"></div>
@@ -551,13 +542,13 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
 </div>
 
-<script src="questions.js?v=2"></script>
-<script src="scenarios.js?v=2"></script>
-<script src="connections.js?v=2"></script>
-<script src="glossary.js?v=2"></script>
-<script src="podcast.js?v=2"></script>
-<script src="achievements.js?v=2"></script>
-<script src="auth.js?v=2"></script>
-<script src="game.js?v=2"></script>
+<script src="questions.js?v=3"></script>
+<script src="scenarios.js?v=3"></script>
+<script src="connections.js?v=3"></script>
+<script src="glossary.js?v=3"></script>
+<script src="podcast.js?v=3"></script>
+<script src="achievements.js?v=3"></script>
+<script src="auth.js?v=3"></script>
+<script src="game.js?v=3"></script>
 </body>
 </html>

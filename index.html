@@ -48,8 +48,9 @@ html,body{
 }
 body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
-.screen{display:none;flex-direction:column;height:100%;padding:20px;animation:fadeIn .3s;overflow-y:auto}
+.screen{display:none;flex-direction:column;height:100%;padding:20px;animation:screenIn .35s cubic-bezier(.4,0,.2,1);overflow-y:auto}
 .screen.active{display:flex}
+@keyframes screenIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Login */
@@ -164,9 +165,11 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .options{display:flex;flex-direction:column;gap:10px;flex:1;overflow-y:auto;padding-bottom:16px}
 .opt-btn{width:100%;padding:16px 18px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;color:var(--text);font-size:.88rem;text-align:left;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none;line-height:1.4;box-shadow:0 1px 4px rgba(0,0,0,.03)}
 .opt-btn:active{transform:scale(.98);border-color:var(--blue)}
-.opt-btn.correct{border-color:var(--success);background:rgba(52,168,83,.08);color:var(--success);font-weight:600}
-.opt-btn.wrong{border-color:var(--danger);background:rgba(234,67,53,.06);color:var(--danger)}
+.opt-btn.correct{border-color:var(--success);background:rgba(52,168,83,.08);color:var(--success);font-weight:600;animation:popIn .3s}
+.opt-btn.wrong{border-color:var(--danger);background:rgba(234,67,53,.06);color:var(--danger);animation:shake .4s}
 .opt-btn.disabled{pointer-events:none;opacity:.7}
+@keyframes popIn{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
 
 /* Explanation Panel */
 .explain-panel{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:24px 24px 0 0;padding:24px 20px;padding-bottom:calc(24px + var(--safe-bottom));box-shadow:0 -8px 40px rgba(0,0,0,.12);transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:100;pointer-events:none}

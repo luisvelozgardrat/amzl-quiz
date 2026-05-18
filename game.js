@@ -26,9 +26,15 @@ function save() {
 // === DAILY STREAK ===
 function getToday(){ return new Date().toISOString().slice(0,10); }
 
+function getDailyQuestion(){
+  const today=getToday();
+  const seed=[...today].reduce((a,c)=>a+c.charCodeAt(0),0);
+  return QUESTIONS[seed % QUESTIONS.length];
+}
+
 function checkDailyStreak(){
   const today = getToday();
-  if(state.lastPlayDate === today) return; // already checked today
+  if(state.lastPlayDate === today) return;
   const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
   if(state.lastPlayDate === yesterday){
     // consecutive day - streak continues
@@ -36,8 +42,11 @@ function checkDailyStreak(){
     // missed a day - reset streak
     state.dailyStreak = 0;
   }
-  state.dailyDone = 0; // reset daily progress
+  state.dailyDone = 0;
   save();
+  // Show daily question hint
+  const dq=getDailyQuestion();
+  setTimeout(()=>showToast('💡','Pregunta del día: '+dq.q.substring(0,40)+'...'),1500);
 }
 
 function markDayPlayed(){

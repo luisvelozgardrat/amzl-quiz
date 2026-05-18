@@ -51,16 +51,23 @@ function renderWeakness() {
   const top5 = cats.slice(0, 5);
 
   section.innerHTML = `
-    <div class="weakness-title">Tu dominio por categoría</div>
-    ${top5.map(([cat, data]) => {
-      const pct = Math.round((data.correct / data.total) * 100);
-      const color = pct >= 80 ? 'var(--success)' : pct >= 50 ? 'var(--warning)' : 'var(--danger)';
-      return `<div class="weakness-bar">
-        <span class="wlabel">${cat}</span>
-        <div class="wtrack"><div class="wfill" style="width:${pct}%;background:${color}"></div></div>
-        <span class="wpct">${pct}%</span>
-      </div>`;
-    }).join('')}
+    <div style="margin-top:16px;padding:0 20px 20px;background:var(--card);border:1.5px solid var(--border);border-radius:20px;box-shadow:0 4px 20px rgba(0,0,0,.04)">
+      <div class="collapsible-header" onclick="toggleCollapsible(this)">
+        <span class="col-title">Tu dominio por categoría</span>
+        <span class="col-chevron">▼</span>
+      </div>
+      <div class="collapsible-body">
+        ${top5.map(([cat, data]) => {
+          const pct = Math.round((data.correct / data.total) * 100);
+          const color = pct >= 80 ? 'var(--success)' : pct >= 50 ? 'var(--warning)' : 'var(--danger)';
+          return `<div class="weakness-bar">
+            <span class="wlabel">${cat}</span>
+            <div class="wtrack"><div class="wfill" style="width:${pct}%;background:${color}"></div></div>
+            <span class="wpct">${pct}%</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
   `;
 }
 
@@ -380,4 +387,10 @@ function shuffle(arr) {
 }
 
 // === BOOT ===
+function toggleCollapsible(header){
+  header.classList.toggle('open');
+  const body=header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
 init();

@@ -1,11 +1,14 @@
 // Auth - credentials
-const VALID_USER = 'luisgard@amazon.com';
-const VALID_PASS = 'hub2025';
+const VALID_USERS = [
+  {user:'luisgard@amazon.com', pass:'hub2026'},
+  {user:'filipge@amazon.com', pass:'hub2026'}
+];
 
 // Check if already logged in
 (function(){
   if(localStorage.getItem('hubTrainerAuth')==='true'){
     document.getElementById('loginScreen').style.display='none';
+    document.getElementById('splashScreen').style.display='none';
     document.getElementById('menuScreen').classList.add('active');
     setTimeout(()=>showToast('👋','¡De vuelta! Sigue entrenando.'),500);
   }
@@ -15,7 +18,8 @@ function doLogin(){
   const user=document.getElementById('loginUser').value.trim().toLowerCase();
   const pass=document.getElementById('loginPass').value;
   const err=document.getElementById('loginError');
-  if(user===VALID_USER && pass===VALID_PASS){
+  const match=VALID_USERS.find(u=>u.user===user&&u.pass===pass);
+  if(match){
     err.textContent='';
     localStorage.setItem('hubTrainerAuth','true');
     // Hide login, show splash

@@ -455,6 +455,72 @@ function startErrorReview(){
   startTimer('count-up');
 }
 
+// === SCENARIO MODE ===
+let scenarioState = {idx:0, scenarios:[], score:0};
+
+function startScenario(){
+  scenarioState.idx=0;
+  scenarioState.score=0;
+  scenarioState.scenarios=shuffle([...SCENARIOS]);
+  showScreen('scenarioScreen');
+  renderScenario();
+}
+
+function renderScenario(){
+  const sc=scenarioState.scenarios[scenarioState.idx];
+  document.getElementById('scenarioProgress').textContent=`${scenarioState.idx+1}/${scenarioState.scenarios.length}`;
+  document.getElementById('scTitle').textContent=sc.title;
+  document.getElementById('scContext').textContent=sc.context;
+  document.getElementById('scMetric').textContent=sc.metric;
+  document.getElementById('scQuestion').textContent=sc.question;
+  const container=document.getElementById('scOptions');
+  container.innerHTML=sc.options.map((o,i)=>`<button class="opt-btn" data-idx="${i}">${o}</button>`).join('');
+  container.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>selectScenarioAnswer(btn,parseInt(btn.dataset.idx)));
+  });
+}
+
+function selectScenarioAnswer(btn,idx){
+  const sc=scenarioState.scenarios[scenarioState.idx];
+  const correct=idx===sc.correct;
+  const buttons=document.querySelectorAll('#scOptions .opt-btn');
+  buttons.forEach((b,i)=>{
+    b.classList.add('disabled');
+    if(i===sc.correct) b.classList.add('correct');
+  });
+  if(correct){scenarioState.score++;btn.classList.add('correct');vibrate(30);}
+  else{btn.classList.add('wrong');vibrate([50,30,50]);}
+  // Show explanation
+  const panel=document.getElementById('explanationPanel');
+  panel.innerHTML=`
+    <div class="explain-header ${correct?'explain-correct':'explain-wrong'}">
+      <span class="explain-icon">${correct?'✅':'❌'}</span>
+      <span class="explain-title">${correct?'¡Correcto!':'Incorrecto'}</span>
+    </div>
+    <div class="explain-body">
+      <div class="explain-answer">✓ ${sc.options[sc.correct]}</div>
+      <div class="explain-detail">${sc.explain}</div>
+    </div>
+    <button class="btn-continue" onclick="continueScenario()">Continuar →</button>
+  `;
+  panel.classList.add('active');
+}
+
+function continueScenario(){
+  document.getElementById('explanationPanel').classList.remove('active');
+  scenarioState.idx++;
+  if(scenarioState.idx>=scenarioState.scenarios.length){
+    addXP(scenarioState.score*20);
+    checkAchievements();
+    document.getElementById('finalScore').textContent=`${scenarioState.score}/${scenarioState.scenarios.length}`;
+    document.getElementById('finalSub').textContent='Escenarios resueltos correctamente';
+    document.getElementById('xpEarned').textContent=`+${scenarioState.score*20} XP`;
+    showScreen('resultsScreen');
+  } else { renderScenario(); }
+}
+
+function endScenario(){ showMenu(); }
+
 // === UTILS ===
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {

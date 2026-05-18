@@ -236,6 +236,13 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
 /* Weekly Chart */
 .weekly-chart{margin-top:16px;padding:18px;background:var(--card);border:1.5px solid var(--border);border-radius:16px}
+
+/* Scenario */
+.scenario-card{background:var(--surface);border-radius:20px;padding:22px;margin-bottom:14px}
+.scenario-title{font-size:.95rem;font-weight:800;color:var(--navy);margin-bottom:10px}
+.scenario-context{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.scenario-metric{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-size:.78rem;font-weight:700;color:var(--blue);font-family:'SF Mono',monospace;margin-bottom:12px}
+.scenario-question{font-size:.9rem;font-weight:700;color:var(--navy)}
 .weekly-chart-title{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:14px}
 .weekly-bars{display:flex;align-items:flex-end;justify-content:space-between;height:80px;gap:6px}
 .weekly-bar-col{display:flex;flex-direction:column;align-items:center;flex:1;height:100%}
@@ -363,6 +370,11 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     <div class="label">Repasar Errores</div>
     <div class="desc">Practica las preguntas que has fallado</div>
   </div>
+  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="startScenario()">
+    <div class="icon">🧠</div>
+    <div class="label">Escenario Real</div>
+    <div class="desc">Decide qué acción tomar con datos del DBR</div>
+  </div>
 
   <div class="weakness-section" id="weaknessSection"></div>
 
@@ -430,6 +442,21 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   <button class="btn-main btn-secondary" onclick="retryGame()">Reintentar</button>
 </div>
 
+<!-- ===== SCENARIO SCREEN ===== -->
+<div class="screen" id="scenarioScreen">
+  <div class="game-header">
+    <button class="btn-close" onclick="endScenario()">✕</button>
+    <div class="game-info"><span id="scenarioProgress">1/8</span></div>
+  </div>
+  <div class="scenario-card">
+    <div class="scenario-title" id="scTitle"></div>
+    <div class="scenario-context" id="scContext"></div>
+    <div class="scenario-metric" id="scMetric"></div>
+    <div class="scenario-question" id="scQuestion"></div>
+  </div>
+  <div class="options" id="scOptions"></div>
+</div>
+
 <!-- ===== ACHIEVEMENTS SCREEN ===== -->
 <div class="screen" id="achievementsScreen">
   <div class="game-header">
@@ -475,6 +502,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <div class="confetti" id="confettiContainer"></div>
 
 <script src="questions.js?v=2"></script>
+<script src="scenarios.js?v=2"></script>
 <script src="glossary.js?v=2"></script>
 <script src="podcast.js?v=2"></script>
 <script src="achievements.js?v=2"></script>

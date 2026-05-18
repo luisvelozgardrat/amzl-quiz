@@ -168,6 +168,16 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200;overflow:hidden}
 .confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:confetti-fall 2.5s ease-out forwards}
 
+/* Glossary */
+.glossary-search{width:100%;padding:16px 20px;border-radius:14px;border:1.5px solid var(--border);font-size:.9rem;background:var(--surface);color:var(--text);outline:none;transition:border-color .2s}
+.glossary-search:focus{border-color:var(--blue)}
+.glossary-list{flex:1;overflow-y:auto;margin-top:16px;padding-bottom:20px}
+.glossary-item{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:10px}
+.glossary-item .gi-term{font-size:.95rem;font-weight:800;color:var(--navy)}
+.glossary-item .gi-full{font-size:.78rem;color:var(--blue);font-weight:600;margin-top:4px}
+.glossary-item .gi-desc{font-size:.82rem;color:var(--muted);margin-top:8px;line-height:1.5}
+.glossary-empty{text-align:center;color:var(--light);margin-top:40px;font-size:.85rem}
+
 /* Podcast */
 .podcast-transcript{flex:1;overflow-y:auto;padding-bottom:110px}
 .podcast-bubble{padding:14px 18px;border-radius:16px;margin-bottom:10px;font-size:.84rem;line-height:1.6}
@@ -238,6 +248,11 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     <div class="label">Podcast</div>
     <div class="desc">Escucha dos compañeros explicándote todo</div>
   </div>
+  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="openGlossary()">
+    <div class="icon">🔍</div>
+    <div class="label">Glosario</div>
+    <div class="desc">Busca cualquier término o acrónimo</div>
+  </div>
   </div>
 
   <div class="weakness-section" id="weaknessSection"></div>
@@ -301,6 +316,16 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   <button class="btn-main btn-secondary" onclick="retryGame()">Reintentar</button>
 </div>
 
+<!-- ===== GLOSSARY SCREEN ===== -->
+<div class="screen" id="glossaryScreen">
+  <div class="game-header">
+    <button class="btn-close" onclick="closeGlossary()">✕</button>
+    <div class="game-info"><span>📖 Glosario</span></div>
+  </div>
+  <input type="text" class="glossary-search" id="glossaryInput" placeholder="Busca un término... (ej: OTR, DPMO, CPS)" oninput="filterGlossary()">
+  <div class="glossary-list" id="glossaryList"></div>
+</div>
+
 <!-- ===== PODCAST SCREEN ===== -->
 <div class="screen" id="podcastScreen">
   <div class="game-header">
@@ -322,6 +347,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <div class="confetti" id="confettiContainer"></div>
 
 <script src="questions.js"></script>
+<script src="glossary.js"></script>
 <script src="podcast.js"></script>
 <script src="game.js"></script>
 </body>

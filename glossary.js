@@ -54,6 +54,22 @@ const glossary=[
 {term:"Flag",full:"Flag (Alerta)",desc:"Se genera cuando una métrica cruza su umbral/target. Requiere RCA y Action Item."},
 {term:"Benchmark",full:"Benchmark CPS Urban",desc:"Coste de referencia urbano. Se compara vs CPS real para ver si somos más baratos o caros."},
 {term:"Ageing",full:"Ageing Shipments",desc:"Paquetes atascados que llevan 3, 4, 5 o 6+ días sin entregarse."},
+{term:"S2R",full:"Store to Route",desc:"Nodo donde el volumen del HUB se clasifica por Milk Run y se despacha a stores. El DSP recoge desde stores."},
+{term:"Dispatch Sheet",full:"Dispatch Sheet / Wave Plan",desc:"Documento con el plan de oleadas de despacho para un nodo S2R. Se genera desde Route Planning."},
+{term:"Wave Plan",full:"Wave Plan",desc:"Sinónimo de Dispatch Sheet. Plan de oleadas que indica qué volumen va a cada store/ruta."},
+{term:"Route Planning",full:"Route Planning (herramienta)",desc:"Herramienta interna para planificar rutas y generar Dispatch Sheets."},
+{term:"Stow",full:"Stow (Clasificación)",desc:"Proceso de clasificar el volumen del HUB por Milk Run. Debe completarse antes de generar Dispatch Sheets."},
+{term:"DILO",full:"Day In the Life Of",desc:"Documento que describe la rutina diaria de un nodo. Define horarios clave como cuándo se completa el stow."},
+{term:"GHOST Store",full:"GHOST Store (Tienda fantasma)",desc:"Store ficticia creada cuando no hay store real en una zona o cuando una store sale y no hay quién absorba su volumen. El DSP asume el volumen directamente."},
+{term:"Store Rostering",full:"Store Rostering",desc:"Proceso donde las stores confirman vía HUB App si van a trabajar o no. Se revisa tras generar Dispatch Sheets."},
+{term:"LMAQ",full:"Last Mile Account Quality",desc:"Equipo encargado de la calidad de cuentas de última milla. Recibe la transición del proceso de Dispatch Sheets."},
+{term:"Mother DS",full:"Mother Delivery Station",desc:"Estación de entrega principal de la que dependen los nodos hub (ej: DMA4 es mother de EHM4)."},
+{term:"Exclusive",full:"Exclusive Node",desc:"Nodo hub que opera exclusivamente para Amazon Hub, no comparte volumen con la DS madre."},
+{term:"Shared",full:"Shared Node",desc:"Nodo que comparte volumen entre la DS madre y el hub."},
+{term:"AM",full:"Account Manager",desc:"Persona responsable de gestionar la relación con los nodos/stores asignados."},
+{term:"CIT",full:"CIT (Continuous Improvement Team)",desc:"Equipo de mejora continua que define procesos y DILOs."},
+{term:"QR Code",full:"QR Code (Dispatch)",desc:"Código QR generado para cada Dispatch Sheet. El DSP lo escanea durante el load-out."},
+{term:"Load-out",full:"Load-out",desc:"Proceso de carga de paquetes en la furgoneta del DSP antes de salir a ruta."},
 ];
 
 function openGlossary(){

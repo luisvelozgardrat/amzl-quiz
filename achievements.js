@@ -31,3 +31,28 @@ function checkAchievements(){
     });
   }
 }
+
+function openAchievements(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('achievementsScreen').classList.add('active');
+  renderAchievements();
+}
+
+function closeAchievements(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('menuScreen').classList.add('active');
+}
+
+function renderAchievements(){
+  const grid=document.getElementById('achGrid');
+  const unlocked=state.achievements.length;
+  document.getElementById('achCounter').textContent=`${unlocked} / ${ACHIEVEMENTS.length} desbloqueados`;
+  grid.innerHTML=ACHIEVEMENTS.map(a=>{
+    const isUnlocked=state.achievements.includes(a.id);
+    return `<div class="ach-card ${isUnlocked?'unlocked':'locked'}">
+      <div class="ach-icon">${isUnlocked?a.icon:'🔒'}</div>
+      <div class="ach-name">${a.name}</div>
+      <div class="ach-desc">${a.desc}</div>
+    </div>`;
+  }).join('');
+}

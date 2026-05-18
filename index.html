@@ -213,6 +213,17 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
 /* Glossary */
 .glossary-search{width:100%;padding:16px 20px;border-radius:14px;border:1.5px solid var(--border);font-size:.9rem;background:var(--surface);color:var(--text);outline:none;transition:border-color .2s}
+
+/* Achievements */
+.achievements-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;padding-bottom:20px;overflow-y:auto;flex:1}
+.ach-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px 14px;text-align:center;transition:all .3s}
+.ach-card.unlocked{border-color:var(--gold);box-shadow:0 4px 16px rgba(198,152,94,.15)}
+.ach-card.locked{opacity:.45;filter:grayscale(1)}
+.ach-card .ach-icon{font-size:2rem;margin-bottom:8px}
+.ach-card .ach-name{font-size:.78rem;font-weight:800;color:var(--navy);margin-bottom:4px}
+.ach-card .ach-desc{font-size:.65rem;color:var(--muted);line-height:1.4}
+.ach-card.locked .ach-icon{font-size:1.8rem}
+.ach-counter{text-align:center;margin-top:12px;font-size:.75rem;color:var(--muted);font-weight:600}
 .glossary-search:focus{border-color:var(--blue)}
 .glossary-list{flex:1;overflow-y:auto;margin-top:16px;padding-bottom:20px}
 .glossary-item{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:10px}
@@ -321,6 +332,11 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     <div class="label">Glosario</div>
     <div class="desc">Busca cualquier término o acrónimo</div>
   </div>
+  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="openAchievements()">
+    <div class="icon">🏆</div>
+    <div class="label">Logros</div>
+    <div class="desc">Desbloquea achievements jugando</div>
+  </div>
 
   <div class="weakness-section" id="weaknessSection"></div>
 
@@ -386,6 +402,16 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
   <button class="btn-main" onclick="showMenu()">Volver al menú</button>
   <button class="btn-main btn-secondary" onclick="retryGame()">Reintentar</button>
+</div>
+
+<!-- ===== ACHIEVEMENTS SCREEN ===== -->
+<div class="screen" id="achievementsScreen">
+  <div class="game-header">
+    <button class="btn-close" onclick="closeAchievements()">✕</button>
+    <div class="game-info"><span>🏆 Logros</span></div>
+  </div>
+  <div class="ach-counter" id="achCounter"></div>
+  <div class="achievements-grid" id="achGrid"></div>
 </div>
 
 <!-- ===== GLOSSARY SCREEN ===== -->

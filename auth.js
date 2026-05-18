@@ -1,5 +1,5 @@
 // Auth - credentials
-const VALID_USER = 'luis';
+const VALID_USER = 'luisgard@amazon.com';
 const VALID_PASS = 'hub2025';
 
 // Check if already logged in

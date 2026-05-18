@@ -10,6 +10,7 @@ let state = JSON.parse(localStorage.getItem('amzlQuiz')) || {
 let game = { mode:'', questions:[], idx:0, score:0, lives:3, timer:null, timeLeft:0, lastMode:'' };
 let selectedCats = new Set();
 let studyFlipped = false;
+let isMuted=localStorage.getItem('hubMuted')==='true';
 
 // === INIT ===
 function init() {
@@ -287,6 +288,7 @@ function selectAnswer(btn, answer) {
     btn.classList.add('correct');
     vibrate(30);
     playSound('correct');
+    showFloatingXP(10);
     // Remove from wrong queue if was there
     state.wrongQueue = state.wrongQueue.filter(x => x !== q.q);
     // Confetti on streaks of 5
@@ -340,6 +342,7 @@ function showExplanation(q, correct) {
     <button class="btn-continue" onclick="continueGame()">Continuar →</button>
   `;
   panel.classList.add('active');
+  panel.scrollIntoView({behavior:'smooth',block:'end'});
 }
 
 function continueGame() {
@@ -367,6 +370,7 @@ let audioCtx=null;
 function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 
 function playSound(type){
+  if(isMuted) return;
   try{
     const ctx=getAudioCtx();
     const osc=ctx.createOscillator();
@@ -646,7 +650,35 @@ function changeDailyGoal(){
   showToast('🎯',`Meta diaria: ${state.dailyGoal} preguntas`);
 }
 
-// Apply saved theme
+// === MUTE TOGGLE ===
+function toggleMute(){
+  isMuted=!isMuted;
+  localStorage.setItem('hubMuted',isMuted?'true':'false');
+  document.getElementById('muteToggle').textContent=isMuted?'🔇':'🔊';
+}
+
+// === FLOATING XP ===
+function showFloatingXP(amount){
+  const el=document.createElement('div');
+  el.className='xp-float';
+  el.textContent=`+${amount} XP`;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),1300);
+}
+
+// === SHARE RESULT ===
+function shareResult(){
+  const score=document.getElementById('finalScore').textContent;
+  const xp=document.getElementById('xpEarned').textContent;
+  const text=`🏆 Amazon Hub Trainer\n📊 Score: ${score}\n${xp}\n🔥 Racha: ${state.dailyStreak} días\n\n¿Te atreves a superarme?`;
+  if(navigator.share){
+    navigator.share({title:'Amazon Hub Trainer',text}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text).then(()=>showToast('📋','Resultado copiado al portapapeles'));
+  }
+}
+
+// Apply saved theme & mute
 (function(){
   const saved=localStorage.getItem('hubTheme');
   if(saved==='dark'){
@@ -654,6 +686,8 @@ function changeDailyGoal(){
     const btn=document.getElementById('themeToggle');
     if(btn) btn.textContent='☀️';
   }
+  const muteBtn=document.getElementById('muteToggle');
+  if(muteBtn && isMuted) muteBtn.textContent='🔇';
 })();
 
 init();

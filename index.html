@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.json">
 <title>Amazon Hub Trainer</title>
 <link rel="apple-touch-icon" href="logo.png">
 <style>
@@ -153,7 +154,8 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .game-info span{display:flex;align-items:center;gap:4px}
 .timer{color:var(--navy);font-variant-numeric:tabular-nums}
 .lives{color:var(--danger)}
-.btn-close{background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:4px}
+.btn-close{background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:4px;}
+.btn-close:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
 .progress-bar-wrap{width:100%;height:4px;background:var(--surface);border-radius:2px;margin-bottom:20px}
 .progress-bar{height:100%;background:var(--blue);border-radius:2px;transition:width .3s}
@@ -292,6 +294,19 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .btn-play{background:var(--navy);color:#fff;width:56px;height:56px;font-size:1.4rem}
 .btn-skip{background:var(--surface);border:1.5px solid var(--border)}
 
+/* Floating XP */
+.xp-float{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.4rem;font-weight:900;color:var(--blue);pointer-events:none;z-index:250;animation:xpFloat 1.2s ease forwards;text-shadow:0 2px 8px rgba(0,168,225,.3)}
+@keyframes xpFloat{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}60%{opacity:1;transform:translate(-50%,-120%) scale(1.2)}100%{opacity:0;transform:translate(-50%,-180%) scale(.8)}}
+
+/* Sound toggle */
+.mute-btn{background:none;border:none;font-size:1.1rem;cursor:pointer;padding:4px}
+
+/* Share button */
+.btn-share{background:linear-gradient(135deg,#00a8e1,#0090c5);margin-top:12px}
+
+/* Focus states for accessibility */
+.opt-btn:focus-visible,.menu-card:focus-visible,.btn-main:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
 /* Responsive */
 @media(min-height:800px){
   .question-card{padding:28px}
@@ -329,7 +344,8 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     <div class="hero-top">
       <img src="logo.png" alt="Amazon Hub" class="hero-logo">
       <div style="display:flex;align-items:center;gap:10px">
-        <button onclick="toggleTheme()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;padding:4px" id="themeToggle">🌙</button>
+        <button class="mute-btn" id="muteToggle" onclick="toggleMute()" aria-label="Silenciar sonido">🔊</button>
+        <button onclick="toggleTheme()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;padding:4px" id="themeToggle" aria-label="Cambiar tema">🌙</button>
         <span class="badge" id="levelBadge">NIVEL 1</span>
       </div>
     </div>
@@ -456,6 +472,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
   <button class="btn-main" onclick="showMenu()">Volver al menú</button>
   <button class="btn-main btn-secondary" onclick="retryGame()">Reintentar</button>
+  <button class="btn-main btn-share" onclick="shareResult()">📤 Compartir resultado</button>
 </div>
 
 <!-- ===== CONNECTIONS SCREEN ===== -->
@@ -542,13 +559,14 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
 </div>
 
-<script src="questions.js?v=3"></script>
-<script src="scenarios.js?v=3"></script>
-<script src="connections.js?v=3"></script>
-<script src="glossary.js?v=3"></script>
-<script src="podcast.js?v=3"></script>
-<script src="achievements.js?v=3"></script>
-<script src="auth.js?v=3"></script>
-<script src="game.js?v=3"></script>
+<script src="questions.js?v=4"></script>
+<script src="scenarios.js?v=4"></script>
+<script src="connections.js?v=4"></script>
+<script src="glossary.js?v=4"></script>
+<script src="podcast.js?v=4"></script>
+<script src="achievements.js?v=4"></script>
+<script src="auth.js?v=4"></script>
+<script src="game.js?v=4"></script>
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>
 </body>
 </html>

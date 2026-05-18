@@ -435,6 +435,26 @@ function endGame() {
 
 function retryGame() { startGame(game.lastMode); }
 
+// === ERROR REVIEW ===
+function startErrorReview(){
+  if(state.wrongQueue.length < 2){
+    showToast('✅','¡No tienes errores pendientes!');
+    return;
+  }
+  const errorQs = state.wrongQueue.map(qText=>QUESTIONS.find(q=>q.q===qText)).filter(Boolean);
+  if(errorQs.length < 2){ showToast('✅','¡No tienes errores pendientes!'); return; }
+  game.mode = 'arcade';
+  game.lastMode = 'arcade';
+  game.score = 0;
+  game.idx = 0;
+  game.lives = 3;
+  game.questions = shuffle([...errorQs]);
+  game.timeLeft = 0;
+  showScreen('gameScreen');
+  updateGameUI();
+  startTimer('count-up');
+}
+
 // === UTILS ===
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {

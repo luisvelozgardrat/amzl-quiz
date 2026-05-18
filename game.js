@@ -2,7 +2,9 @@
 let state = JSON.parse(localStorage.getItem('amzlQuiz')) || {
   xp: 0, level: 1, streak: 0, bestStreak: 0,
   totalCorrect: 0, totalAnswered: 0,
-  catStats: {}, wrongQueue: []
+  catStats: {}, wrongQueue: [],
+  dailyStreak: 0, lastPlayDate: null, dailyGoal: 10, dailyDone: 0,
+  weeklyLog: [], achievements: [], bestSurvival: 0
 };
 
 let game = { mode:'', questions:[], idx:0, score:0, lives:3, timer:null, timeLeft:0, lastMode:'' };
@@ -11,6 +13,7 @@ let studyFlipped = false;
 
 // === INIT ===
 function init() {
+  checkDailyStreak();
   renderCatFilter();
   updateMenuStats();
   renderWeakness();
@@ -18,6 +21,45 @@ function init() {
 
 function save() {
   localStorage.setItem('amzlQuiz', JSON.stringify(state));
+}
+
+// === DAILY STREAK ===
+function getToday(){ return new Date().toISOString().slice(0,10); }
+
+function checkDailyStreak(){
+  const today = getToday();
+  if(state.lastPlayDate === today) return; // already checked today
+  const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  if(state.lastPlayDate === yesterday){
+    // consecutive day - streak continues
+  } else if(state.lastPlayDate && state.lastPlayDate !== today){
+    // missed a day - reset streak
+    state.dailyStreak = 0;
+  }
+  state.dailyDone = 0; // reset daily progress
+  save();
+}
+
+function markDayPlayed(){
+  const today = getToday();
+  if(state.lastPlayDate !== today){
+    state.dailyStreak++;
+    state.lastPlayDate = today;
+    // Log to weekly
+    state.weeklyLog.push({date:today, answered:0, correct:0});
+    if(state.weeklyLog.length > 7) state.weeklyLog.shift();
+    save();
+    if(state.dailyStreak > 1){
+      setTimeout(()=>showToast('🔥',`¡Racha de ${state.dailyStreak} días seguidos!`),600);
+    }
+  }
+}
+
+function addDailyProgress(){
+  state.dailyDone++;
+  const todayLog = state.weeklyLog.find(l=>l.date===getToday());
+  if(todayLog) todayLog.answered++;
+  save();
 }
 
 // === XP & LEVEL ===
@@ -36,9 +78,17 @@ function updateMenuStats() {
   document.getElementById('levelBadge').textContent = `NIVEL ${state.level}`;
   document.getElementById('xpBar').style.width = `${(state.xp / xpForLevel(state.level)) * 100}%`;
   document.getElementById('statXP').textContent = state.xp + (state.level - 1) * 120;
-  document.getElementById('statStreak').textContent = state.streak;
+  document.getElementById('statStreak').textContent = state.dailyStreak || state.streak;
   document.getElementById('statAccuracy').textContent = state.totalAnswered > 0
     ? Math.round((state.totalCorrect / state.totalAnswered) * 100) + '%' : '-';
+  // Daily goal bar
+  const goalPct = Math.min((state.dailyDone / state.dailyGoal) * 100, 100);
+  const goalBar = document.getElementById('dailyGoalBar');
+  const goalText = document.getElementById('dailyGoalText');
+  if(goalBar) goalBar.style.width = goalPct + '%';
+  if(goalText) goalText.textContent = `${state.dailyDone}/${state.dailyGoal} hoy`;
+  const streakBadge = document.getElementById('dailyStreakBadge');
+  if(streakBadge) streakBadge.textContent = `🔥 ${state.dailyStreak} días`;
 }
 
 // === WEAKNESS DASHBOARD ===
@@ -239,11 +289,17 @@ function selectAnswer(btn, answer) {
   }
 
   state.totalAnswered++;
+  markDayPlayed();
+  addDailyProgress();
   if (!state.catStats[q.cat]) state.catStats[q.cat] = { correct: 0, total: 0 };
   state.catStats[q.cat].total++;
-  if (correct) state.catStats[q.cat].correct++;
+  if (correct) {
+    state.catStats[q.cat].correct++;
+    const todayLog = state.weeklyLog.find(l=>l.date===getToday());
+    if(todayLog) todayLog.correct++;
+  }
   save();
-
+  checkAchievements();
   showExplanation(q, correct);
 }
 
@@ -364,6 +420,8 @@ function endGame() {
   }
 
   addXP(xpEarned);
+  if(game.mode==='survival' && game.idx > state.bestSurvival) state.bestSurvival = game.idx;
+  checkAchievements();
 
   const total = game.mode === 'blitz' ? game.idx : game.questions.length;
   document.getElementById('finalScore').textContent = game.mode === 'study'

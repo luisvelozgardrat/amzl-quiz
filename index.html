@@ -85,6 +85,14 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .xp-bar-wrap{width:100%;height:8px;background:rgba(255,255,255,.15);border-radius:4px;margin-top:18px;overflow:hidden;position:relative;z-index:1}
 .xp-bar{height:100%;background:linear-gradient(90deg,#FF9900,#ffb84d);border-radius:4px;transition:width .6s ease;box-shadow:0 0 12px rgba(255,153,0,.4)}
 
+/* Daily Goal */
+.daily-goal-wrap{margin-top:14px;position:relative;z-index:1}
+.daily-goal-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.daily-goal-label span{font-size:.65rem;color:rgba(255,255,255,.7);font-weight:600}
+.daily-streak-badge{background:rgba(255,107,53,.25);padding:2px 8px;border-radius:10px;color:#ffb84d;font-size:.6rem;font-weight:700}
+.daily-goal-track{width:100%;height:6px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}
+.daily-goal-bar{height:100%;background:linear-gradient(90deg,#34a853,#6dd490);border-radius:3px;transition:width .5s ease}
+
 /* Stats row */
 .stats-row{display:flex;justify-content:space-around;background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:20px 16px;margin-top:24px;box-shadow:0 4px 20px rgba(0,0,0,.04)}
 .stat{text-align:center}
@@ -268,6 +276,10 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     </div>
     <div class="hero-subtitle">Hub Location Trainer</div>
     <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar" style="width:0%"></div></div>
+    <div class="daily-goal-wrap">
+      <div class="daily-goal-label"><span id="dailyGoalText">0/10 hoy</span><span class="daily-streak-badge" id="dailyStreakBadge">🔥 0 días</span></div>
+      <div class="daily-goal-track"><div class="daily-goal-bar" id="dailyGoalBar" style="width:0%"></div></div>
+    </div>
   </div>
 
   <div class="stats-row">
@@ -409,6 +421,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <script src="questions.js?v=2"></script>
 <script src="glossary.js?v=2"></script>
 <script src="podcast.js?v=2"></script>
+<script src="achievements.js?v=2"></script>
 <script src="auth.js?v=2"></script>
 <script src="game.js?v=2"></script>
 </body>

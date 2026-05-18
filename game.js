@@ -67,10 +67,12 @@ function xpForLevel(lvl) { return lvl * 120; }
 
 function addXP(amount) {
   state.xp += amount;
+  const prevLevel=state.level;
   while (state.xp >= xpForLevel(state.level)) {
     state.xp -= xpForLevel(state.level);
     state.level++;
   }
+  if(state.level>prevLevel) playSound('levelup');
   save();
 }
 
@@ -272,6 +274,7 @@ function selectAnswer(btn, answer) {
     if (state.streak > state.bestStreak) state.bestStreak = state.streak;
     btn.classList.add('correct');
     vibrate(30);
+    playSound('correct');
     // Remove from wrong queue if was there
     state.wrongQueue = state.wrongQueue.filter(x => x !== q.q);
     // Confetti on streaks of 5
@@ -281,6 +284,7 @@ function selectAnswer(btn, answer) {
     state.streak = 0;
     if (game.mode === 'survival') game.lives--;
     vibrate([50, 30, 50]);
+    playSound('wrong');
     // SRS: add to wrong queue
     if (!state.wrongQueue.includes(q.q)) {
       state.wrongQueue.push(q.q);
@@ -344,6 +348,23 @@ function continueGame() {
 // === FEEDBACK ===
 function vibrate(pattern) {
   if (navigator.vibrate) navigator.vibrate(pattern);
+}
+
+// Audio feedback
+let audioCtx=null;
+function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+
+function playSound(type){
+  try{
+    const ctx=getAudioCtx();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    gain.gain.value=0.12;
+    if(type==='correct'){osc.frequency.value=880;osc.type='sine';gain.gain.setValueAtTime(0.12,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.2);osc.start();osc.stop(ctx.currentTime+0.2);}
+    else if(type==='wrong'){osc.frequency.value=220;osc.type='square';gain.gain.setValueAtTime(0.08,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.3);osc.start();osc.stop(ctx.currentTime+0.3);}
+    else if(type==='levelup'){osc.frequency.value=523;osc.type='sine';gain.gain.setValueAtTime(0.1,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();setTimeout(()=>{const o2=ctx.createOscillator();const g2=ctx.createGain();o2.connect(g2);g2.connect(ctx.destination);o2.frequency.value=784;o2.type='sine';g2.gain.setValueAtTime(0.1,ctx.currentTime);g2.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.3);o2.start();o2.stop(ctx.currentTime+0.3);},150);osc.stop(ctx.currentTime+0.15);}
+  }catch(e){}
 }
 
 function fireConfetti() {

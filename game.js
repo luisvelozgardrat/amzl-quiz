@@ -542,6 +542,66 @@ function continueScenario(){
 
 function endScenario(){ showMenu(); }
 
+// === CONNECTIONS MODE ===
+let connState={idx:0,items:[],score:0};
+
+function startConnections(){
+  connState.idx=0;connState.score=0;
+  connState.items=shuffle([...CONNECTIONS]);
+  showScreen('connectionsScreen');
+  renderConnection();
+}
+
+function renderConnection(){
+  const c=connState.items[connState.idx];
+  document.getElementById('connProgress').textContent=`${connState.idx+1}/${connState.items.length}`;
+  document.getElementById('connCause').textContent=c.cause;
+  // Generate 4 options: correct + 3 random wrong effects
+  const others=connState.items.filter(x=>x!==c).map(x=>x.effect);
+  const wrongOpts=shuffle(others).slice(0,3);
+  const opts=shuffle([c.effect,...wrongOpts]);
+  const container=document.getElementById('connOptions');
+  container.innerHTML=opts.map(o=>`<button class="opt-btn">${o}</button>`).join('');
+  container.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>selectConnectionAnswer(btn,btn.textContent));
+  });
+}
+
+function selectConnectionAnswer(btn,answer){
+  const c=connState.items[connState.idx];
+  const correct=answer===c.effect;
+  const buttons=document.querySelectorAll('#connOptions .opt-btn');
+  buttons.forEach(b=>{b.classList.add('disabled');if(b.textContent===c.effect)b.classList.add('correct');});
+  if(correct){connState.score++;btn.classList.add('correct');vibrate(30);playSound('correct');}
+  else{btn.classList.add('wrong');vibrate([50,30,50]);playSound('wrong');}
+  const panel=document.getElementById('explanationPanel');
+  panel.innerHTML=`
+    <div class="explain-header ${correct?'explain-correct':'explain-wrong'}">
+      <span class="explain-icon">${correct?'\u2705':'\u274c'}</span>
+      <span class="explain-title">${correct?'\u00a1Correcto!':'Incorrecto'}</span>
+    </div>
+    <div class="explain-body">
+      <div class="explain-answer">${c.cause} \u2192 ${c.effect}</div>
+      <div class="explain-detail">${c.explain}</div>
+    </div>
+    <button class="btn-continue" onclick="continueConnection()">Continuar \u2192</button>
+  `;
+  panel.classList.add('active');
+}
+
+function continueConnection(){
+  document.getElementById('explanationPanel').classList.remove('active');
+  connState.idx++;
+  if(connState.idx>=connState.items.length){
+    addXP(connState.score*15);
+    checkAchievements();
+    document.getElementById('finalScore').textContent=`${connState.score}/${connState.items.length}`;
+    document.getElementById('finalSub').textContent='Conexiones correctas';
+    document.getElementById('xpEarned').textContent=`+${connState.score*15} XP`;
+    showScreen('resultsScreen');
+  } else { renderConnection(); }
+}
+
 // === UTILS ===
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {

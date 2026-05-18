@@ -250,6 +250,12 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .onboarding-dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
 .onboarding-dot.active{background:var(--blue)}
 .onboarding-btn{width:100%;padding:14px;border-radius:12px;border:none;background:var(--navy);color:#fff;font-size:.9rem;font-weight:700;cursor:pointer}
+
+/* Connections */
+.conn-cause{background:linear-gradient(135deg,rgba(0,168,225,.08),rgba(0,168,225,.03));border:1.5px solid rgba(0,168,225,.2);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px}
+.conn-cause-label{font-size:.6rem;color:var(--blue);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px}
+.conn-cause-text{font-size:1rem;font-weight:700;color:var(--navy)}
+.conn-arrow{text-align:center;font-size:1.2rem;margin-bottom:12px;color:var(--muted)}
 .scenario-title{font-size:.95rem;font-weight:800;color:var(--navy);margin-bottom:10px}
 .scenario-context{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
 .scenario-metric{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-size:.78rem;font-weight:700;color:var(--blue);font-family:'SF Mono',monospace;margin-bottom:12px}
@@ -386,6 +392,11 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     <div class="label">Escenario Real</div>
     <div class="desc">Decide qué acción tomar con datos del DBR</div>
   </div>
+  <div class="menu-card" style="grid-column:1/-1;margin-top:0" onclick="startConnections()">
+    <div class="icon">🔗</div>
+    <div class="label">Conexiones</div>
+    <div class="desc">Causa → Efecto: entiende las relaciones</div>
+  </div>
 
   <div class="weakness-section" id="weaknessSection"></div>
 
@@ -451,6 +462,20 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
   <button class="btn-main" onclick="showMenu()">Volver al menú</button>
   <button class="btn-main btn-secondary" onclick="retryGame()">Reintentar</button>
+</div>
+
+<!-- ===== CONNECTIONS SCREEN ===== -->
+<div class="screen" id="connectionsScreen">
+  <div class="game-header">
+    <button class="btn-close" onclick="showMenu()">✕</button>
+    <div class="game-info"><span id="connProgress">1/12</span></div>
+  </div>
+  <div class="conn-cause">
+    <div class="conn-cause-label">Si esto pasa...</div>
+    <div class="conn-cause-text" id="connCause"></div>
+  </div>
+  <div class="conn-arrow">↓ ¿Qué efecto tiene?</div>
+  <div class="options" id="connOptions"></div>
 </div>
 
 <!-- ===== SCENARIO SCREEN ===== -->
@@ -525,6 +550,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
 <script src="questions.js?v=2"></script>
 <script src="scenarios.js?v=2"></script>
+<script src="connections.js?v=2"></script>
 <script src="glossary.js?v=2"></script>
 <script src="podcast.js?v=2"></script>
 <script src="achievements.js?v=2"></script>

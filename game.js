@@ -526,26 +526,25 @@ function selectScenarioAnswer(btn,idx){
     b.classList.add('disabled');
     if(i===sc.correct) b.classList.add('correct');
   });
-  if(correct){scenarioState.score++;btn.classList.add('correct');vibrate(30);}
-  else{btn.classList.add('wrong');vibrate([50,30,50]);}
-  // Show explanation
+  if(correct){scenarioState.score++;btn.classList.add('correct');vibrate(30);playSound('correct');}
+  else{btn.classList.add('wrong');vibrate([50,30,50]);playSound('wrong');}
   const panel=document.getElementById('explanationPanel');
+  panel.className = correct ? 'explain-panel active' : 'explain-panel active explain-wrong-panel';
   panel.innerHTML=`
     <div class="explain-header ${correct?'explain-correct':'explain-wrong'}">
       <span class="explain-icon">${correct?'✅':'❌'}</span>
-      <span class="explain-title">${correct?'¡Correcto!':'Incorrecto'}</span>
+      <span class="explain-title">${correct?'¡Bien hecho!':'Respuesta incorrecta'}</span>
     </div>
     <div class="explain-body">
       <div class="explain-answer">✓ ${sc.options[sc.correct]}</div>
       <div class="explain-detail">${sc.explain}</div>
     </div>
-    <button class="btn-continue" onclick="continueScenario()">Continuar →</button>
+    <button class="btn-continue" onclick="continueScenario()">CONTINUAR</button>
   `;
-  panel.classList.add('active');
 }
 
 function continueScenario(){
-  document.getElementById('explanationPanel').classList.remove('active');
+  document.getElementById('explanationPanel').className='explain-panel';
   scenarioState.idx++;
   if(scenarioState.idx>=scenarioState.scenarios.length){
     addXP(scenarioState.score*20);
@@ -592,22 +591,22 @@ function selectConnectionAnswer(btn,answer){
   if(correct){connState.score++;btn.classList.add('correct');vibrate(30);playSound('correct');}
   else{btn.classList.add('wrong');vibrate([50,30,50]);playSound('wrong');}
   const panel=document.getElementById('explanationPanel');
+  panel.className = correct ? 'explain-panel active' : 'explain-panel active explain-wrong-panel';
   panel.innerHTML=`
     <div class="explain-header ${correct?'explain-correct':'explain-wrong'}">
       <span class="explain-icon">${correct?'\u2705':'\u274c'}</span>
-      <span class="explain-title">${correct?'\u00a1Correcto!':'Incorrecto'}</span>
+      <span class="explain-title">${correct?'\u00a1Bien hecho!':'Respuesta incorrecta'}</span>
     </div>
     <div class="explain-body">
       <div class="explain-answer">${c.cause} \u2192 ${c.effect}</div>
       <div class="explain-detail">${c.explain}</div>
     </div>
-    <button class="btn-continue" onclick="continueConnection()">Continuar \u2192</button>
+    <button class="btn-continue" onclick="continueConnection()">CONTINUAR</button>
   `;
-  panel.classList.add('active');
 }
 
 function continueConnection(){
-  document.getElementById('explanationPanel').classList.remove('active');
+  document.getElementById('explanationPanel').className='explain-panel';
   connState.idx++;
   if(connState.idx>=connState.items.length){
     addXP(connState.score*15);

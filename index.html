@@ -64,8 +64,8 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .login-field{width:100%;padding:16px 18px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#fff;font-size:.9rem;margin-bottom:14px;outline:none;transition:border-color .2s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .login-field::placeholder{color:rgba(255,255,255,.35)}
 .login-field:focus{border-color:var(--blue)}
-.login-btn{width:100%;padding:16px;border-radius:12px;border:none;background:linear-gradient(135deg,#00a8e1,#0090c5);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:8px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 24px rgba(0,168,225,.3)}
-.login-btn:active{transform:scale(.97)}
+.login-btn{width:100%;padding:16px;border-radius:16px;border:none;background:#58cc02;color:#fff;font-size:1rem;font-weight:800;cursor:pointer;margin-top:8px;transition:all .15s;box-shadow:0 4px 0 #46a302;text-transform:uppercase;letter-spacing:.5px}
+.login-btn:active{transform:translateY(4px);box-shadow:none}
 .login-error{color:#ff6b6b;font-size:.75rem;text-align:center;margin-top:12px;min-height:18px}
 
 /* Splash */
@@ -115,15 +115,15 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
 /* Menu grid */
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
-.menu-card{background:var(--card);border:1.5px solid var(--border);border-radius:22px;padding:28px 16px;text-align:center;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);-webkit-user-select:none;user-select:none;position:relative;overflow:hidden}
-.menu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:22px 22px 0 0;opacity:0;transition:opacity .2s}
+.menu-card{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:28px 16px;text-align:center;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none;position:relative;overflow:hidden;box-shadow:0 3px 0 var(--border)}
+.menu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:20px 20px 0 0;opacity:0;transition:opacity .2s}
 .menu-card:nth-child(1)::before{background:linear-gradient(90deg,#ff9900,#ffb84d)}
 .menu-card:nth-child(2)::before{background:linear-gradient(90deg,#ea4335,#ff6b6b)}
 .menu-card:nth-child(3)::before{background:linear-gradient(90deg,#34a853,#6dd490)}
 .menu-card:nth-child(4)::before{background:linear-gradient(90deg,#00a8e1,#5bc9f2)}
 .menu-card:hover::before,.menu-card:active::before{opacity:1}
-.menu-card:active{transform:scale(.95)}
-.menu-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.08);transform:translateY(-2px)}
+.menu-card:active{transform:translateY(3px);box-shadow:none}
+.menu-card:hover{box-shadow:0 3px 0 var(--border)}
 .menu-card .icon{font-size:2.5rem;margin-bottom:12px;display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:16px;background:var(--surface)}
 .menu-card:nth-child(1) .icon{background:rgba(255,153,0,.08)}
 .menu-card:nth-child(2) .icon{background:rgba(234,67,53,.06)}
@@ -202,10 +202,10 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .flash-hint{font-size:.72rem;color:var(--light);margin-top:20px}
 
 .flash-nav{display:flex;gap:12px;margin-top:16px}
-.flash-nav button{flex:1;padding:16px;border-radius:14px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;transition:opacity .2s}
-.flash-nav button:active{opacity:.8}
-.btn-know{background:var(--success);color:#fff}
-.btn-dunno{background:var(--danger);color:#fff}
+.flash-nav button{flex:1;padding:16px;border-radius:16px;border:none;font-size:.9rem;font-weight:800;cursor:pointer;transition:all .15s}
+.flash-nav button:active{transform:translateY(4px);box-shadow:none}
+.btn-know{background:#58cc02;color:#fff;box-shadow:0 4px 0 #46a302}
+.btn-dunno{background:#ff4b4b;color:#fff;box-shadow:0 4px 0 #cc3b3b}
 
 /* Results */
 .results{text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center}
@@ -213,9 +213,10 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .results .sub{color:var(--muted);margin-top:8px;font-size:.9rem}
 .results .xp-earned{color:var(--blue);font-size:1.3rem;font-weight:800;margin-top:20px}
 
-.btn-main{width:100%;padding:16px;border-radius:14px;border:none;background:var(--navy);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:12px;transition:opacity .2s}
-.btn-main:active{opacity:.8}
-.btn-secondary{background:var(--surface);border:1.5px solid var(--border);color:var(--text)}
+.btn-main{width:100%;padding:16px;border-radius:16px;border:none;background:#58cc02;color:#fff;font-size:1rem;font-weight:800;cursor:pointer;margin-top:12px;transition:all .15s;box-shadow:0 4px 0 #46a302;text-transform:uppercase;letter-spacing:.5px}
+.btn-main:active{transform:translateY(4px);box-shadow:none}
+.btn-secondary{background:var(--surface);border:2px solid var(--border);color:var(--text);box-shadow:0 4px 0 var(--border);text-transform:none;font-weight:700;letter-spacing:0}
+.btn-secondary:active{transform:translateY(4px);box-shadow:none}
 
 /* Weakness dashboard */
 .weakness-section{margin-top:20px}
@@ -260,7 +261,8 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .onboarding-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
 .onboarding-dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
 .onboarding-dot.active{background:var(--blue)}
-.onboarding-btn{width:100%;padding:14px;border-radius:12px;border:none;background:var(--navy);color:#fff;font-size:.9rem;font-weight:700;cursor:pointer}
+.onboarding-btn{width:100%;padding:14px;border-radius:16px;border:none;background:#58cc02;color:#fff;font-size:.9rem;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #46a302;text-transform:uppercase}
+.onboarding-btn:active{transform:translateY(4px);box-shadow:none}
 
 /* Connections */
 .conn-cause{background:linear-gradient(135deg,rgba(0,168,225,.08),rgba(0,168,225,.03));border:1.5px solid rgba(0,168,225,.2);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px}
@@ -308,7 +310,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 .mute-btn{background:none;border:none;font-size:1.1rem;cursor:pointer;padding:4px}
 
 /* Share button */
-.btn-share{background:linear-gradient(135deg,#00a8e1,#0090c5);margin-top:12px}
+.btn-share{background:var(--blue);box-shadow:0 4px 0 #0090c5;margin-top:12px}
 
 /* Focus states for accessibility */
 .opt-btn:focus-visible,.menu-card:focus-visible,.btn-main:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
@@ -453,11 +455,11 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <div class="screen" id="studyScreen">
   <div class="game-header">
     <button class="btn-close" onclick="endGame()">✕</button>
+    <div class="progress-bar-wrap" style="flex:1;margin:0 14px"><div class="progress-bar" id="studyProgressBar"></div></div>
     <div class="game-info">
       <span id="studyProgress">1 / 10</span>
     </div>
   </div>
-  <div class="progress-bar-wrap"><div class="progress-bar" id="studyProgressBar"></div></div>
 
   <div class="flashcard" id="flashcard" onclick="flipCard()">
     <div class="flash-label" id="flashLabel">Pregunta</div>
@@ -567,14 +569,14 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
 </div>
 
-<script src="questions.js?v=4"></script>
-<script src="scenarios.js?v=4"></script>
-<script src="connections.js?v=4"></script>
-<script src="glossary.js?v=4"></script>
-<script src="podcast.js?v=4"></script>
-<script src="achievements.js?v=4"></script>
-<script src="auth.js?v=4"></script>
-<script src="game.js?v=4"></script>
+<script src="questions.js?v=5"></script>
+<script src="scenarios.js?v=5"></script>
+<script src="connections.js?v=5"></script>
+<script src="glossary.js?v=5"></script>
+<script src="podcast.js?v=5"></script>
+<script src="achievements.js?v=5"></script>
+<script src="auth.js?v=5"></script>
+<script src="game.js?v=5"></script>
 <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>
 </body>
 </html>

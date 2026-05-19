@@ -145,5 +145,16 @@ function filterGlossary(){
 function renderGlossary(items){
   const c=document.getElementById('glossaryList');
   if(!items.length){c.innerHTML='<div class="glossary-empty">No se encontró ningún término</div>';return;}
-  c.innerHTML=items.map(g=>`<div class="glossary-item"><div class="gi-term">${g.term}</div><div class="gi-full">${g.full}</div><div class="gi-desc">${g.desc}</div></div>`).join('');
+  c.innerHTML=items.map(g=>`<div class="glossary-item"><div style="display:flex;align-items:center;justify-content:space-between"><div class="gi-term">${g.term}</div><button onclick="pronounce('${g.full.replace(/'/g,"\\'")}')"
+  style="background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px" aria-label="Pronunciar">🔊</button></div><div class="gi-full">${g.full}</div><div class="gi-desc">${g.desc}</div></div>`).join('');
+}
+
+function pronounce(text){
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-US';
+    u.rate=0.9;
+    speechSynthesis.speak(u);
+  }
 }

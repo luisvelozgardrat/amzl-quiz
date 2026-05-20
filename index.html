@@ -322,8 +322,35 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
 /* Responsive */
 @media(min-width:600px){
-  #gameScreen,#studyScreen,#scenarioScreen,#connectionsScreen{max-width:600px;margin:0 auto}
+  #gameScreen,#studyScreen,#scenarioScreen,#connectionsScreen,#sopScreen{max-width:600px;margin:0 auto}
 }
+
+/* SOP */
+.sop-progress-wrap{width:100%;height:6px;background:var(--surface);border-radius:3px;margin-bottom:16px;overflow:hidden}
+.sop-progress-bar{height:100%;background:linear-gradient(90deg,#58cc02,#46a302);border-radius:3px;transition:width .4s}
+.sop-list{flex:1;overflow-y:auto;padding-bottom:20px}
+.sop-card{background:var(--card);border:2px solid var(--border);border-radius:16px;margin-bottom:12px;overflow:hidden;transition:all .2s}
+.sop-card.completed{border-color:#58cc02;background:rgba(88,204,2,.03)}
+.sop-card-header{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;-webkit-user-select:none;user-select:none}
+.sop-step-num{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sop-card.completed .sop-step-num{background:#58cc02}
+.sop-step-title{font-size:.88rem;font-weight:700;color:var(--text);flex:1}
+.sop-chevron{font-size:.7rem;color:var(--muted);transition:transform .3s}
+.sop-card.open .sop-chevron{transform:rotate(180deg)}
+.sop-card-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.sop-card.open .sop-card-body{max-height:600px}
+.sop-body-inner{padding:0 18px 18px;font-size:.82rem;color:var(--muted);line-height:1.7}
+.sop-body-inner code{background:var(--navy);color:#ff9900;padding:2px 8px;border-radius:4px;font-size:.75rem}
+.sop-body-inner .sop-path{background:var(--surface);color:var(--blue);padding:8px 12px;border-radius:8px;font-family:monospace;font-size:.72rem;display:block;margin:8px 0;word-break:break-all}
+.sop-body-inner .sop-warning{background:#fff8e6;border-left:3px solid #ff9900;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.78rem;color:#7a5000}
+.sop-body-inner .sop-link{display:inline-flex;align-items:center;gap:6px;background:rgba(0,168,225,.06);border:1px solid rgba(0,168,225,.2);padding:8px 14px;border-radius:10px;color:var(--blue);font-weight:700;font-size:.78rem;text-decoration:none;margin:6px 4px 6px 0;transition:all .2s}
+.sop-body-inner .sop-link:active{transform:scale(.96)}
+.sop-check{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border-radius:10px;margin-top:10px;cursor:pointer;-webkit-user-select:none;user-select:none;transition:all .2s}
+.sop-check.checked{background:rgba(88,204,2,.08)}
+.sop-check-box{width:22px;height:22px;border:2px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;transition:all .2s}
+.sop-check.checked .sop-check-box{background:#58cc02;border-color:#58cc02;color:#fff}
+.sop-check-text{font-size:.78rem;color:var(--text);font-weight:600}
+.sop-check.checked .sop-check-text{text-decoration:line-through;color:var(--muted)}
 @media(min-height:800px){
   .q-text{font-size:1.35rem}
   .opt-btn{padding:20px 22px;font-size:.95rem}
@@ -414,6 +441,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     </div>
     <div class="collapsible-body">
       <div style="display:flex;flex-direction:column;gap:10px;padding-top:10px">
+        <div class="menu-card" style="margin:0" onclick="openSOP()"><div class="icon">📋</div><div class="label">SOP</div><div class="desc">Procesos paso a paso</div></div>
         <div class="menu-card" style="margin:0" onclick="openGlossary()"><div class="icon">🔍</div><div class="label">Glosario</div></div>
         <div class="menu-card" style="margin:0" onclick="openAchievements()"><div class="icon">🏆</div><div class="label">Logros</div></div>
         <div class="menu-card" style="margin:0" onclick="startErrorReview()"><div class="icon">❌</div><div class="label">Repasar Errores</div></div>
@@ -557,6 +585,16 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
 </div>
 
+<!-- ===== SOP SCREEN ===== -->
+<div class="screen" id="sopScreen">
+  <div class="game-header">
+    <button class="btn-close" onclick="closeSOP()">✕</button>
+    <div class="game-info"><span>📋 SOP</span></div>
+  </div>
+  <div class="sop-progress-wrap"><div class="sop-progress-bar" id="sopProgressBar" style="width:0%"></div></div>
+  <div class="sop-list" id="sopList"></div>
+</div>
+
 <!-- ===== EXPLANATION PANEL (slide-up) ===== -->
 <div class="explain-panel" id="explanationPanel"></div>
 
@@ -581,6 +619,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <script src="podcast.js?v=5"></script>
 <script src="achievements.js?v=5"></script>
 <script src="auth.js?v=5"></script>
+<script src="sop.js?v=5"></script>
 <script src="game.js?v=5"></script>
 <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>
 </body>

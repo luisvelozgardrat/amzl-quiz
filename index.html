@@ -327,6 +327,29 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 
 /* SOP */
 .sop-progress-wrap{width:100%;height:6px;background:var(--surface);border-radius:3px;margin-bottom:16px;overflow:hidden}
+
+/* Node Map */
+#mapScreen{padding:0;overflow:hidden}
+.map-header{display:flex;align-items:center;padding:16px 20px;gap:12px}
+.map-header .btn-close{flex-shrink:0}
+.map-header-title{font-size:.85rem;font-weight:800;color:var(--text)}
+.map-container{flex:1;position:relative;overflow:hidden;background:linear-gradient(180deg,#e8f4fd 0%,#f0f7ff 100%)}
+.map-container.dark{background:linear-gradient(180deg,#0f1b2d 0%,#1a2b49 100%)}
+#mapCanvas{width:100%;height:100%;touch-action:none}
+.map-info-panel{position:absolute;bottom:0;left:0;right:0;background:var(--card);border-radius:20px 20px 0 0;padding:20px;padding-bottom:calc(20px + var(--safe-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.1);transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:10}
+.map-info-panel.active{transform:translateY(0)}
+.map-info-station{font-size:1.2rem;font-weight:900;color:var(--text)}
+.map-info-region{font-size:.75rem;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.map-info-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+.map-info-stat{text-align:center;background:var(--surface);border-radius:12px;padding:12px 8px}
+.map-info-stat .mis-val{font-size:1.1rem;font-weight:800;color:var(--text)}
+.map-info-stat .mis-lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.map-info-provinces{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.map-info-provinces .mip-chip{padding:4px 10px;background:rgba(0,168,225,.08);border-radius:8px;font-size:.7rem;font-weight:600;color:var(--blue)}
+.map-legend{position:absolute;top:60px;right:12px;background:var(--card);border-radius:12px;padding:10px 12px;box-shadow:0 4px 16px rgba(0,0,0,.08);font-size:.6rem;z-index:5}
+.map-legend-title{font-weight:800;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.map-legend-item{display:flex;align-items:center;gap:6px;margin-bottom:4px;color:var(--muted);font-weight:600}
+.map-legend-dot{width:10px;height:10px;border-radius:50%}
 .sop-progress-bar{height:100%;background:linear-gradient(90deg,#58cc02,#46a302);border-radius:3px;transition:width .4s}
 .sop-list{flex:1;overflow-y:auto;padding-bottom:20px}
 .sop-card{background:var(--card);border:2px solid var(--border);border-radius:16px;margin-bottom:12px;overflow:hidden;transition:all .2s}
@@ -441,6 +464,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     </div>
     <div class="collapsible-body">
       <div style="display:flex;flex-direction:column;gap:10px;padding-top:10px">
+        <div class="menu-card" style="margin:0" onclick="openMap()"><div class="icon">🗺️</div><div class="label">Mapa Nodos</div><div class="desc">22 hubs en España</div></div>
         <div class="menu-card" style="margin:0" onclick="openSOP()"><div class="icon">📋</div><div class="label">SOP</div><div class="desc">Procesos paso a paso</div></div>
         <div class="menu-card" style="margin:0" onclick="openGlossary()"><div class="icon">🔍</div><div class="label">Glosario</div></div>
         <div class="menu-card" style="margin:0" onclick="openAchievements()"><div class="icon">🏆</div><div class="label">Logros</div></div>
@@ -585,6 +609,35 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
 </div>
 
+<!-- ===== NODE MAP SCREEN ===== -->
+<div class="screen" id="mapScreen">
+  <div class="map-header">
+    <button class="btn-close" onclick="closeMap()">✕</button>
+    <div class="map-header-title">🗺️ Mapa de Nodos</div>
+  </div>
+  <div class="map-container" id="mapContainer">
+    <canvas id="mapCanvas"></canvas>
+    <div class="map-legend">
+      <div class="map-legend-title">Tipo</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#ff9900"></div>Hub (O)</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#00a8e1"></div>DS (D)</div>
+      <div class="map-legend-title" style="margin-top:8px">Densidad</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="width:16px;height:16px"></div>Alta</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="width:10px;height:10px"></div>Baja</div>
+    </div>
+  </div>
+  <div class="map-info-panel" id="mapInfoPanel">
+    <div class="map-info-station" id="mapInfoStation"></div>
+    <div class="map-info-region" id="mapInfoRegion"></div>
+    <div class="map-info-grid">
+      <div class="map-info-stat"><div class="mis-val" id="mapInfoStores">-</div><div class="mis-lbl">Tiendas</div></div>
+      <div class="map-info-stat"><div class="mis-val" id="mapInfoDensity">-</div><div class="mis-lbl">Densidad</div></div>
+      <div class="map-info-stat"><div class="mis-val" id="mapInfoProgram">-</div><div class="mis-lbl">Programa</div></div>
+    </div>
+    <div class="map-info-provinces" id="mapInfoProvinces"></div>
+  </div>
+</div>
+
 <!-- ===== SOP SCREEN ===== -->
 <div class="screen" id="sopScreen">
   <div class="game-header">
@@ -619,6 +672,8 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <script src="podcast.js?v=5"></script>
 <script src="achievements.js?v=5"></script>
 <script src="auth.js?v=5"></script>
+<script src="nodes.js?v=5"></script>
+<script src="nodemap.js?v=5"></script>
 <script src="sop.js?v=5"></script>
 <script src="game.js?v=5"></script>
 <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>

@@ -465,7 +465,7 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     </div>
     <div class="collapsible-body">
       <div style="display:flex;flex-direction:column;gap:10px;padding-top:10px">
-        <div class="menu-card" style="margin:0" onclick="openMap()"><div class="icon">🗺️</div><div class="label">Mapa Nodos</div><div class="desc">22 hubs en España</div></div>
+        <div class="menu-card" style="margin:0" onclick="openMap()"><div class="icon">🗺️</div><div class="label">Mapa Nodos</div><div class="desc">69 nodos — Red completa ES</div></div>
         <div class="menu-card" style="margin:0" onclick="openSOP()"><div class="icon">📋</div><div class="label">SOP</div><div class="desc">Procesos paso a paso</div></div>
         <div class="menu-card" style="margin:0" onclick="openGlossary()"><div class="icon">🔍</div><div class="label">Glosario</div></div>
         <div class="menu-card" style="margin:0" onclick="openAchievements()"><div class="icon">🏆</div><div class="label">Logros</div></div>
@@ -614,18 +614,24 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 <div class="screen" id="mapScreen">
   <div class="map-header">
     <button class="btn-close" onclick="closeMap()">✕</button>
-    <div class="map-header-title">🗺️ Mapa de Nodos</div>
+    <div class="map-header-title">🗺️ Red de Nodos ES</div>
   </div>
   <div class="map-container" id="mapContainer">
-    <canvas id="mapCanvas" style="display:none"></canvas>
     <div id="leafletMap" style="width:100%;height:100%"></div>
+    <button class="map-mode-btn" id="mapModeBtn" onclick="toggleMapMode()">🌐 Normal</button>
+    <div class="map-stats-bar">
+      <div class="map-stat-pill"><div class="dot" style="background:#00a8e1"></div>30 DS</div>
+      <div class="map-stat-pill"><div class="dot" style="background:#ff9900"></div>17 Hub</div>
+      <div class="map-stat-pill"><div class="dot" style="background:#a855f7"></div>22 Excl</div>
+    </div>
     <div class="map-legend">
-      <div class="map-legend-title">Tipo</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#ff9900"></div>Hub (O)</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#00a8e1"></div>DS (D)</div>
-      <div class="map-legend-title" style="margin-top:8px">Tamaño</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="width:14px;height:14px;background:#666"></div>+Tiendas</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="width:8px;height:8px;background:#666"></div>-Tiendas</div>
+      <div class="map-legend-title">Tipo de Nodo</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#00a8e1"></div>DS (Delivery Station)</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#ff9900"></div>Hub (Shared)</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#a855f7"></div>Exclusive</div>
+      <div class="map-legend-title" style="margin-top:8px">Tamaño = Volumen</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="width:14px;height:14px;background:rgba(255,255,255,.3)"></div>Alto vol.</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="width:7px;height:7px;background:rgba(255,255,255,.3)"></div>Bajo vol.</div>
     </div>
   </div>
   <div class="map-info-panel" id="mapInfoPanel">
@@ -633,9 +639,11 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
     <div class="map-info-region" id="mapInfoRegion"></div>
     <div class="map-info-grid">
       <div class="map-info-stat"><div class="mis-val" id="mapInfoStores">-</div><div class="mis-lbl">Tiendas</div></div>
-      <div class="map-info-stat"><div class="mis-val" id="mapInfoDensity">-</div><div class="mis-lbl">Densidad</div></div>
-      <div class="map-info-stat"><div class="mis-val" id="mapInfoProgram">-</div><div class="mis-lbl">Programa</div></div>
+      <div class="map-info-stat"><div class="mis-val" id="mapInfoDensity">-</div><div class="mis-lbl">Vol %</div></div>
+      <div class="map-info-stat"><div class="mis-val" id="mapInfoProgram">-</div><div class="mis-lbl">Tipo</div></div>
     </div>
+    <div class="vol-bar-wrap"><div class="vol-bar" id="mapInfoVolBar" style="width:0%"></div></div>
+    <div class="vol-label" id="mapInfoVolLabel"></div>
     <div class="map-info-provinces" id="mapInfoProvinces"></div>
   </div>
 </div>
@@ -667,18 +675,18 @@ body{padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
   </div>
 </div>
 
-<script src="questions.js?v=5"></script>
-<script src="scenarios.js?v=5"></script>
-<script src="connections.js?v=5"></script>
-<script src="glossary.js?v=5"></script>
-<script src="podcast.js?v=5"></script>
-<script src="achievements.js?v=5"></script>
-<script src="auth.js?v=5"></script>
+<script src="questions.js?v=7"></script>
+<script src="scenarios.js?v=7"></script>
+<script src="connections.js?v=7"></script>
+<script src="glossary.js?v=7"></script>
+<script src="podcast.js?v=7"></script>
+<script src="achievements.js?v=7"></script>
+<script src="auth.js?v=7"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="nodes.js?v=5"></script>
-<script src="nodemap.js?v=5"></script>
-<script src="sop.js?v=5"></script>
-<script src="game.js?v=5"></script>
+<script src="nodes.js?v=7"></script>
+<script src="nodemap.js?v=7"></script>
+<script src="sop.js?v=7"></script>
+<script src="game.js?v=7"></script>
 <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>
 </body>
 </html>

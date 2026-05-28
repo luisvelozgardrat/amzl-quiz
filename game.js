@@ -270,7 +270,7 @@ function updateGameUI() {
 }
 
 function selectAnswer(btn, answer) {
-  if (btn.classList.contains('disabled')) return;
+  if (document.querySelector('.opt-btn.disabled')) return;
   const q = game.questions[game.idx];
   const correct = answer === q.a;
   const buttons = document.querySelectorAll('.opt-btn');
@@ -346,18 +346,24 @@ function showExplanation(q, correct) {
 }
 
 function continueGame() {
-  const panel = document.getElementById('explanationPanel');
-  panel.className = 'explain-panel';
+  try {
+    const panel = document.getElementById('explanationPanel');
+    panel.className = 'explain-panel';
+    panel.innerHTML = '';
 
-  if (game.mode === 'survival' && game.lives <= 0) { endGame(); return; }
-  game.idx++;
-  if (game.mode === 'blitz') {
-    if (game.idx >= game.questions.length) game.idx = 0;
-    updateGameUI();
-  } else if (game.idx >= game.questions.length) {
-    endGame();
-  } else {
-    updateGameUI();
+    if (game.mode === 'survival' && game.lives <= 0) { endGame(); return; }
+    game.idx++;
+    if (game.mode === 'blitz') {
+      if (game.idx >= game.questions.length) game.idx = 0;
+      updateGameUI();
+    } else if (game.idx >= game.questions.length) {
+      endGame();
+    } else {
+      updateGameUI();
+    }
+  } catch(e) {
+    console.error('continueGame error:', e);
+    alert('Error: ' + e.message);
   }
 }
 

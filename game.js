@@ -346,24 +346,19 @@ function showExplanation(q, correct) {
 }
 
 function continueGame() {
-  try {
-    const panel = document.getElementById('explanationPanel');
-    panel.className = 'explain-panel';
-    panel.innerHTML = '';
+  const panel = document.getElementById('explanationPanel');
+  panel.className = 'explain-panel';
+  panel.innerHTML = '';
 
-    if (game.mode === 'survival' && game.lives <= 0) { endGame(); return; }
-    game.idx++;
-    if (game.mode === 'blitz') {
-      if (game.idx >= game.questions.length) game.idx = 0;
-      updateGameUI();
-    } else if (game.idx >= game.questions.length) {
-      endGame();
-    } else {
-      updateGameUI();
-    }
-  } catch(e) {
-    console.error('continueGame error:', e);
-    alert('Error: ' + e.message);
+  if (game.mode === 'survival' && game.lives <= 0) { endGame(); return; }
+  game.idx++;
+  if (game.mode === 'blitz') {
+    if (game.idx >= game.questions.length) game.idx = 0;
+    updateGameUI();
+  } else if (game.idx >= game.questions.length) {
+    endGame();
+  } else {
+    updateGameUI();
   }
 }
 
